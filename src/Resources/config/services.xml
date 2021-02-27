@@ -10,5 +10,13 @@
         </call>
         <tag name="container.service_subscriber"/>
       </service>
+
+      <service id="svc_bundle.controller.change-mail" class="Svc\ProfileBundle\Controller\ChangeMailController" public="true">
+        <call method="setContainer">
+            <argument type="service" id="Psr\Container\ContainerInterface"/>
+        </call>
+        <tag name="container.service_subscriber"/>
+      </service>
+
     </services>
 </container>

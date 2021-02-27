@@ -2,9 +2,11 @@
 
 namespace Svc\ProfileBundle\Controller;
 
+use Svc\UtilBundle\Service\EnvInfoHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+#use Symfony\Component\Routing\Annotation\Route;
+
 
 class BundleController extends AbstractController
 {
@@ -16,5 +18,6 @@ class BundleController extends AbstractController
     return $this->render('@SvcProfileBundle/profile/index.html.twig');
     return new Response("Hallo from Bundle 1");
   }
+
 
 }
