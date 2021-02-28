@@ -2,9 +2,12 @@
 
 namespace Svc\ProfileBundle\Controller;
 
-use App\Entity\User;
+use App\Security\CustomAuthenticator;
+use Doctrine\ORM\EntityManagerInterface;
 use Svc\ProfileBundle\Entity\UserChanges;
 use Svc\ProfileBundle\Form\ChangeMailType;
+use Svc\ProfileBundle\Repository\UserChangesRepository;
+use Svc\ProfileBundle\Service\ChangeMailHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,32 +15,57 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ChangeMailController extends AbstractController
 {
-  public function startForm(Request $request): Response
+
+  private const TOKENLIFETIME = 3600;
+
+  private $customAuth;
+  private $helper;
+
+  /*
+  public function __construct(CustomAuthenticator $customAuth)
   {
-    $user = new User();
-    $form = $this->createForm(ChangeMailType::class, $user);
+    $this->customAuth = $customAuth;
+  }
+*/
+
+  public function startForm(Request $request, ChangeMailHelper $helper, EntityManagerInterface $em, CustomAuthenticator $customAuth, UserChangesRepository $rep): Response
+  {
+
+  //  $rep = $em->getRepository(UserChanges::class);
+  //  dump($rep->findAll());
+
+    $helper->checkExpiredRequest($this->getUser());
+//    die;
+    $form = $this->createForm(ChangeMailType::class);
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-      
-      $change = new UserChanges();
-      $change->setUser($this->getUser());
-      $change->setChangeType(1);
-      $change->setNewMail($user->getEmail());
 
-      unset($user);
+      $credential = [ 'password' => $form->get('password')->getData()];
+      $user = $this->getUser();
+      if ($this->customAuth->checkCredentials($credential, $user))
+      {
+        $expiresAt = new \DateTimeImmutable(\sprintf('+%d seconds', static::TOKENLIFETIME));
 
-      $entityManager = $this->getDoctrine()->getManager();
-      $entityManager->persist($change);
-      $entityManager->flush();
+        $change = new UserChanges();
+        $change->setUser($user);
+        $change->setChangeType(1);
+        $change->setNewMail($form->get('email')->getData());
+        $change->setExpiresAt($expiresAt);
 
-      die ("Gespeichert");
-      return $this->redirectToRoute('homeNoLocale');
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($change);
+        $entityManager->flush();
+
+        die ("Gespeichert");
+        return $this->redirectToRoute('homeNoLocale');
+      } else {
+        $this->addFlash("danger", "Wrong password");
+      }
     }
 
     return $this->render('@SvcProfile/profile/changeMail/start.html.twig', [
-        'user' => $user,
-        'form' => $form->createView(),
+        'form' => $form->createView()
     ]);
   }
 }

@@ -3,11 +3,11 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/routing
         http://symfony.com/schema/routing/routing-1.0.xsd">
-    <route id="svc_profile_index" controller="svc_bundle.controller.bundle::index" path="/" >
+    <route id="svc_profile_index" controller="svc_profile.controller.bundle::index" path="/" >
         <!-- settings -->
     </route>
 
-    <route id="svc_profile_change_mail_start" controller="svc_bundle.controller.change-mail::startForm" path="/change_mail" >
+    <route id="svc_profile_change_mail_start" controller="svc_profile.controller.change-mail::startForm" path="/change_mail" >
         <!-- settings -->
     </route>
 

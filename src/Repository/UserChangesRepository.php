@@ -2,8 +2,8 @@
 
 namespace Svc\ProfileBundle\Repository;
 
-use Svc\ProfileBundle\Entity\UserChanges;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Svc\ProfileBundle\Entity\UserChanges;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**

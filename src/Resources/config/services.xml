@@ -4,19 +4,34 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services
         http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
-      <service id="svc_bundle.controller.bundle" class="Svc\ProfileBundle\Controller\BundleController" public="true">
+      <service id="svc_profile.controller.bundle" class="Svc\ProfileBundle\Controller\BundleController" public="true">
         <call method="setContainer">
             <argument type="service" id="Psr\Container\ContainerInterface"/>
         </call>
         <tag name="container.service_subscriber"/>
       </service>
 
-      <service id="svc_bundle.controller.change-mail" class="Svc\ProfileBundle\Controller\ChangeMailController" public="true">
+      <service id="svc_profile.controller.change-mail" class="Svc\ProfileBundle\Controller\ChangeMailController" public="true" autowire="true" >
         <call method="setContainer">
             <argument type="service" id="Psr\Container\ContainerInterface"/>
         </call>
         <tag name="container.service_subscriber"/>
+        <tag name="controller.service_arguments"/>
+        <argument type="service" id="App\Security\CustomAuthenticator"/>
+        <argument type="service" id="svc_profile.service.change-mail-helper"/>
       </service>
+
+      <service id="svc_profile.service.change-mail-helper" class="Svc\ProfileBundle\Service\ChangeMailHelper" public="false" autowire="true">
+        <tag name="controller.service_arguments"/>
+      </service>
+      <service id="Svc\ProfileBundle\Service\ChangeMailHelper" alias="svc_profile.service.change-mail-helper" />
+
+
+      <service id="svc_profile.rep.user-change-rep" class="Svc\ProfileBundle\Repository\UserChangesRepository" public="false" autowire="true" >
+        <tag name="doctrine.repository_service"/>
+      </service>
+      <service id="Svc\ProfileBundle\Repository\UserChangesRepository" alias="svc_profile.rep.user-change-rep" />
+
 
     </services>
 </container>

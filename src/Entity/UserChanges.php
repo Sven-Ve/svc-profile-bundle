@@ -30,6 +30,11 @@ class UserChanges
     private $changeType;
 
     /**
+    * @ORM\Column(type="datetime")
+    */
+    private $expiresAt;
+
+    /**
      * @ORM\Column(type="string", length=100, nullable=true)
      */
     private $newMail;
@@ -71,6 +76,18 @@ class UserChanges
     public function setNewMail(?string $newMail): self
     {
         $this->newMail = $newMail;
+
+        return $this;
+    }
+
+    public function getExpiresAt(): ?\DateTimeInterface
+    {
+        return $this->expiresAt;
+    }
+
+    public function setExpiresAt(\DateTimeInterface $expiresAt): self
+    {
+        $this->expiresAt = $expiresAt;
 
         return $this;
     }
