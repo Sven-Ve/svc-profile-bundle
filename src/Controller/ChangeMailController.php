@@ -50,6 +50,11 @@ class ChangeMailController extends AbstractController
         exit;
       }
 
+      if ($this->helper->checkMailExists($newMail)) {
+        $this->addFlash("danger","Mail address $newMail already exists. Please choose another on");
+        return ($this->redirectToRoute("svc_profile_change_mail_start"));
+      }
+
       $credential = [ 'password' => $form->get('password')->getData()];
       if ($customAuth->checkCredentials($credential, $user))
       {

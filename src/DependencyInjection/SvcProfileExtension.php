@@ -11,8 +11,8 @@ class SvcProfileExtension extends Extension
 {
   public function load(array $configs, ContainerBuilder $container)
   {
-    // $rootPath = $container->getParameter("kernel.project_dir");
-    // $this->createConfigIfNotExists($rootPath);
+    $rootPath = $container->getParameter("kernel.project_dir");
+    $this->createConfigIfNotExists($rootPath);
 
     $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
     $loader->load('services.xml');
@@ -27,17 +27,12 @@ class SvcProfileExtension extends Extension
   }
 
   private function createConfigIfNotExists($rootPath) {
-    $fileName= $rootPath . "/config/packages/svc_xx.yaml";
-    if (file_exists($fileName)) {
-      return false;
+    $fileName= $rootPath . "/config/routes/svc_profile.yaml";
+    if (!file_exists($fileName)) {
+      $text="_svc_profile:\n";
+      $text.="    resource: '@SvcProfileBundle/src/Resources/config/routes.xml'\n";
+      $text.="    prefix: /profile/svc\n";
+      file_put_contents($fileName, $text);
     }
-    
-    $text="svc_xx:\n";
-    $text.="    # Default sender mail address\n";
-    $text.="    mail_address:         dev@sv-systems.com\n";
-    $text.="    # Default sender name\n";
-    $text.="    mail_name:           ~\n";
-
-    file_put_contents($fileName, $text);
   }
 }
