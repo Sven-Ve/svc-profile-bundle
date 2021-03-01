@@ -12,38 +12,44 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-
+/**
+ * Controller for change mail in user
+ *
+ * @author Sven Vetter <dev@sv-systems.com>
+ */
 class ChangeMailController extends AbstractController
 {
 
   private const TOKENLIFETIME = 3600;
 
-  private $customAuth;
   private $helper;
 
-  /*
-  public function __construct(CustomAuthenticator $customAuth)
+  
+  public function __construct(ChangeMailHelper $helper)
   {
-    $this->customAuth = $customAuth;
+    $this->helper = $helper;
   }
-*/
 
-  public function startForm(Request $request, ChangeMailHelper $helper, EntityManagerInterface $em, CustomAuthenticator $customAuth, UserChangesRepository $rep): Response
+
+  public function startForm(Request $request, EntityManagerInterface $em, CustomAuthenticator $customAuth, UserChangesRepository $rep): Response
   {
 
-  //  $rep = $em->getRepository(UserChanges::class);
-  //  dump($rep->findAll());
+  
 
-    $helper->checkExpiredRequest($this->getUser());
-//    die;
+    
     $form = $this->createForm(ChangeMailType::class);
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
+      if (!$this->helper->checkExpiredRequest($this->getUser())) {
+        $this->addFlash("danger","You requested already a mail change. Please check your mail to confirm it.");
+        return ($this->redirectToRoute("svc_profile_change_mail_start"));
+        exit;
+      }
 
       $credential = [ 'password' => $form->get('password')->getData()];
       $user = $this->getUser();
-      if ($this->customAuth->checkCredentials($credential, $user))
+      if ($customAuth->checkCredentials($credential, $user))
       {
         $expiresAt = new \DateTimeImmutable(\sprintf('+%d seconds', static::TOKENLIFETIME));
 

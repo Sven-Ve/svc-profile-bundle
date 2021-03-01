@@ -6,24 +6,42 @@ use Doctrine\ORM\EntityManagerInterface;
 use Svc\ProfileBundle\Repository\UserChangesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+/**
+ * Private class to support profile changes
+ *
+ * @author Sven Vetter <dev@sv-systems.com>
+ */
 class ChangeMailHelper extends AbstractController
 {
-  private $rep;
+  
+  private const TOKENLIFETIME = 3600;
+  private $userChageRep;
   private $entityManager;
 
-  public function __construct(UserChangesRepository $rep, EntityManagerInterface $entityManager)
+  
+  public function __construct(UserChangesRepository $userChageRep, EntityManagerInterface $entityManager)
   {
-    $this->rep = $rep;
+    $this->userChageRep = $userChageRep;
     $this->entityManager = $entityManager;
   }
 
   public function checkExpiredRequest($user) {
-    $res = $this->rep->findOneBy(["user"=>$user]);
-    dump($res);
-    $this->entityManager->remove($res);
-    $this->entityManager->flush();
+    $entry = $this->userChageRep->findOneBy(["user"=>$user]);
 
-    die("Hoer");
+    if (!$entry) {
+      return true;
+    }
+
+    $expiresAt = new \DateTimeImmutable(\sprintf('+%d seconds', static::TOKENLIFETIME));
+
+    if ($entry->getExpiresAt() > new \DateTimeImmutable()) {
+      return false;
+    }
+
+    $this->entityManager->remove($entry);
+    $this->entityManager->flush();
+    return true;
+
   }
 
 }

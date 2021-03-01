@@ -17,8 +17,6 @@
         </call>
         <tag name="container.service_subscriber"/>
         <tag name="controller.service_arguments"/>
-        <argument type="service" id="App\Security\CustomAuthenticator"/>
-        <argument type="service" id="svc_profile.service.change-mail-helper"/>
       </service>
 
       <service id="svc_profile.service.change-mail-helper" class="Svc\ProfileBundle\Service\ChangeMailHelper" public="false" autowire="true">
