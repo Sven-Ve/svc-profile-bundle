@@ -5,9 +5,13 @@ namespace Svc\ProfileBundle\Entity;
 use App\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use Svc\ProfileBundle\Repository\UserChangesRepository;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 /**
  * @ORM\Entity(repositoryClass=UserChangesRepository::class)
+ * @UniqueEntity(fields={"hashedToken"}, message="There is already an token")
+ * @UniqueEntity(fields={"id", "changeType"}, message="There is already an request for this user")
  */
 class UserChanges
 {
@@ -38,6 +42,11 @@ class UserChanges
      * @ORM\Column(type="string", length=100, nullable=true)
      */
     private $newMail;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true, unique=true)
+     */
+    private $hashedToken;
 
     public function getId(): ?int
     {
@@ -88,6 +97,18 @@ class UserChanges
     public function setExpiresAt(\DateTimeInterface $expiresAt): self
     {
         $this->expiresAt = $expiresAt;
+
+        return $this;
+    }
+
+    public function getHashedToken(): ?string
+    {
+        return $this->hashedToken;
+    }
+
+    public function setHashedToken(string $hashedToken): self
+    {
+        $this->hashedToken = $hashedToken;
 
         return $this;
     }
