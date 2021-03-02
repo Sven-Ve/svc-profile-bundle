@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "v0.1.0";
-$message = "First version pushed to satis and ready to integrate";
+$version = "v0.1.1";
+$message = "Dependencies changed to dev-main";
 
 file_put_contents("README.md", "\n* Version " . $version . ": " . $message, FILE_APPEND);
 
