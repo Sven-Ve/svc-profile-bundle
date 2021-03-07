@@ -19,4 +19,7 @@
         <!-- settings -->
     </route>
 
+    <route id="svc_profile_change_pw_start" controller="svc_profile.controller.change-pw::startForm" path="/cpw" >
+        <!-- settings -->
+    </route>
 </routes>

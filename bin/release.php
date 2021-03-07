@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "v0.1.1";
-$message = "Dependencies changed to dev-main";
+$version = "v1.0.0";
+$message = "added pasword change controller";
 
 file_put_contents("README.md", "\n* Version " . $version . ": " . $message, FILE_APPEND);
 

@@ -30,6 +30,14 @@
       </service>
       <service id="Svc\ProfileBundle\Repository\UserChangesRepository" alias="svc_profile.rep.user-change-rep" />
 
+      <service id="svc_profile.controller.change-pw" class="Svc\ProfileBundle\Controller\ChangePWController" public="true" autowire="true" >
+        <call method="setContainer">
+            <argument type="service" id="Psr\Container\ContainerInterface"/>
+        </call>
+        <tag name="container.service_subscriber"/>
+        <tag name="controller.service_arguments"/>
+      </service>
+
 
     </services>
 </container>

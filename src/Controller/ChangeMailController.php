@@ -31,9 +31,15 @@ class ChangeMailController extends AbstractController
 
   public function startForm(Request $request, CustomAuthenticator $customAuth, MailerHelper $mailHelper): Response
   { 
+    $user = $this->getUser();
+    if (!$user) {
+      $this->addFlash("warning", "Please login before changing email address.");
+      return ($this->redirectToRoute("app_login"));
+      exit;
+    }
+
     $form = $this->createForm(ChangeMailType::class);
     $form->handleRequest($request);
-    $user = $this->getUser();
     $newMail = trim($form->get('email')->getData());
 
 
