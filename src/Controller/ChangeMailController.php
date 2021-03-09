@@ -22,10 +22,11 @@ class ChangeMailController extends AbstractController
 
   private $helper;
 
-  
-  public function __construct(ChangeMailHelper $helper)
+  private $enableCaptcha;
+  public function __construct(ChangeMailHelper $helper, $enableCaptcha)
   {
     $this->helper = $helper;
+    $this->enableCaptcha = $enableCaptcha;
   }
 
 
@@ -38,7 +39,7 @@ class ChangeMailController extends AbstractController
       exit;
     }
 
-    $form = $this->createForm(ChangeMailType::class);
+    $form = $this->createForm(ChangeMailType::class, null, ['enableCaptcha' => $this->enableCaptcha]);
     $form->handleRequest($request);
     $newMail = trim($form->get('email')->getData());
 

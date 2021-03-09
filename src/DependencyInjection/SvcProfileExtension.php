@@ -21,9 +21,11 @@ class SvcProfileExtension extends Extension
     $config = $this->processConfiguration($configuration, $configs);
 
     // set arguments for __construct in services
-    // $definition = $container->getDefinition('svc_versioning.release_prod_command');
-    // $definition->setArgument(0, $config['run_git']);
-    // $definition->setArgument(1, $config['run_deploy']);
+     $definition = $container->getDefinition('svc_profile.controller.change-pw');
+     $definition->setArgument(1, $config['enableCaptcha']);
+
+     $definition1 = $container->getDefinition('svc_profile.controller.change-mail');
+     $definition1->setArgument(1, $config['enableCaptcha']);
   }
 
   private function createConfigIfNotExists($rootPath) {
@@ -34,5 +36,14 @@ class SvcProfileExtension extends Extension
       $text.="    prefix: /profile/svc\n";
       file_put_contents($fileName, $text);
     }
+
+    $fileName= $rootPath . "/config/packages/svc_profile.yaml";
+    if (!file_exists($fileName)) {
+      $text="svc_profile:\n";
+      $text.="    # Enable captcha for change email/password forms?\n";
+      $text.="    enableCaptcha: false\n";
+      file_put_contents($fileName, $text);
+    }
+
   }
 }

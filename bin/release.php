@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "v1.0.0";
-$message = "added pasword change controller";
+$version = "v1.1.0";
+$message = "added captcha to change profile/password";
 
 file_put_contents("README.md", "\n* Version " . $version . ": " . $message, FILE_APPEND);
 

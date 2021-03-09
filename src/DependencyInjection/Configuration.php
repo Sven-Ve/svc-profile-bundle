@@ -14,10 +14,10 @@ class Configuration implements ConfigurationInterface
  
     $rootNode
       ->children()
-        ->booleanNode('debug')->defaultTrue()->info('Should we debug a little bit?')->end()
+        ->booleanNode('enableCaptcha')->defaultFalse()->info('Enable captcha for change email/password forms?')->end()
       ->end();
     return $treeBuilder;
 
-    }
+  }
 
 }

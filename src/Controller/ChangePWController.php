@@ -20,9 +20,11 @@ class ChangePWController extends AbstractController
 {
 
   private $mailerHelper;
-  public function __construct(MailerHelper $mailerHelper)
+  private $enableCaptcha;
+  public function __construct(MailerHelper $mailerHelper, $enableCaptcha)
   {
     $this->mailerHelper = $mailerHelper;
+    $this->enableCaptcha = $enableCaptcha;
   }
 
   public function startForm(Request $request, CustomAuthenticator $customAuth, UserPasswordEncoderInterface $passwordEncoder): Response
@@ -34,7 +36,7 @@ class ChangePWController extends AbstractController
       exit;
     }
 
-    $form = $this->createForm(ChangePWType::class);
+    $form = $this->createForm(ChangePWType::class, null, ['enableCaptcha' => $this->enableCaptcha]);
     $form->handleRequest($request);
     $user = $this->getUser();
 
@@ -64,9 +66,7 @@ class ChangePWController extends AbstractController
         }
     }
 
-    return $this->render('@SvcProfile/profile/changePW/start.html.twig', [
-        'form' => $form->createView()
-    ]);
+    return $this->render('@SvcProfile/profile/changePW/start.html.twig', ['form' => $form->createView()]);
   }
 
 
