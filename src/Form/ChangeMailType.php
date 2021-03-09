@@ -17,7 +17,7 @@ class ChangeMailType extends AbstractType
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
       $builder
-        ->add('email', EmailType::class, ['label' => 'New mail'])
+        ->add('email', EmailType::class, ['label' => 'New mail', "attr" => ["autofocus"=>true]])
         ->add('password', PasswordType::class, [ 'help' => 'Please enter your password to check your identity']);
 
       if ($options['enableCaptcha']) {

@@ -11,3 +11,4 @@ Versions
 * Version v1.0.0: added pasword change controller
 
 * Version v1.1.0: added captcha to change profile/password
+* Version v1.1.1: autofucus for first field in change password/mail forms

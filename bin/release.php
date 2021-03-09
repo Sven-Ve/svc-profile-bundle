@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "v1.1.0";
-$message = "added captcha to change profile/password";
+$version = "v1.1.1";
+$message = "autofucus for first field in change password/mail forms";
 
 file_put_contents("README.md", "\n* Version " . $version . ": " . $message, FILE_APPEND);
 

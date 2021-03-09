@@ -17,7 +17,10 @@ class ChangePWType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
       $builder
-        ->add('password', PasswordType::class, [ 'help' => 'Please enter your old password to check your identity'])
+        ->add('password', PasswordType::class, [ 
+          'help' => 'Please enter your old password to check your identity',
+          "attr" => ["autofocus"=>true]
+        ])
         ->add('plainPassword', PasswordType::class, [
           'label' => "New password",
           'help' => 'Please enter a new password',
