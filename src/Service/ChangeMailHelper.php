@@ -21,8 +21,11 @@ class ChangeMailHelper extends AbstractController
 {
   
   private const TOKENLIFETIME = 3600;
+
+  # generated with https://passwordsgenerator.net/sha256-hash-generator/
   private const SECRETKEY = "23573BE852F6D1C73B314809E940F19F3D00EF1CD99147462861BB714E68DCC1";
   private const TYPCHANGEMAIL = 1;
+  
   private $userChangeRep;
   private $userRep;
   private $entityManager;
@@ -156,7 +159,8 @@ class ChangeMailHelper extends AbstractController
    */
   public function getTokenHash($token)
   {
-    return hash_hmac('sha256', $token, static::SECRETKEY);  // sha256 = 64 chars
+    $secretKey = $_ENV['SVC_PROFILE_HASH_SECRET'] ?? static::SECRETKEY;
+    return hash_hmac('sha256', $token, $secretKey);  // sha256 = 64 chars
   }
 
 }

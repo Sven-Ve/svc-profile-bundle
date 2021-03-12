@@ -12,3 +12,4 @@ Versions
 
 * Version v1.1.0: added captcha to change profile/password
 * Version v1.1.1: autofucus for first field in change password/mail forms
+* Version v1.1.2: allow external storage for hash secret key
