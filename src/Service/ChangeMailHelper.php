@@ -9,15 +9,16 @@ use Svc\ProfileBundle\Entity\UserChanges;
 use Svc\ProfileBundle\Repository\UserChangesRepository;
 use Svc\UtilBundle\Service\EnvInfoHelper;
 use Svc\UtilBundle\Service\MailerHelper;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\RouterInterface;
+use Twig\Environment;
 
 /**
  * Private class to support profile changes
  *
  * @author Sven Vetter <dev@sv-systems.com>
  */
-class ChangeMailHelper extends AbstractController
+class ChangeMailHelper
 {
   
   private const TOKENLIFETIME = 3600;
@@ -31,14 +32,24 @@ class ChangeMailHelper extends AbstractController
   private $entityManager;
   private $mailerHelper;
   private $token;
+  private $twig;
+  private $router;
 
   
-  public function __construct(UserChangesRepository $userChangeRep, EntityManagerInterface $entityManager, MailerHelper $mailerHelper, UserRepository $userRep)
+  public function __construct(
+    UserChangesRepository $userChangeRep, 
+    EntityManagerInterface $entityManager, 
+    MailerHelper $mailerHelper, 
+    UserRepository $userRep,
+    Environment $twig,
+    RouterInterface $router)
   {
     $this->userChangeRep = $userChangeRep;
     $this->entityManager = $entityManager;
     $this->mailerHelper = $mailerHelper;
     $this->userRep = $userRep;
+    $this->twig = $twig;
+    $this->router = $router;
   }
 
   public function checkExpiredRequest($user) {
@@ -90,10 +101,10 @@ class ChangeMailHelper extends AbstractController
    */
   public function sendActivationMail($newMail) {
     $token = $this->getToken();
-    $url=$this->generateUrl('svc_profile_change_mail_activate', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
+    $url=$this->router->generate('svc_profile_change_mail_activate', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
 
-    $html=$this->renderView("@SvcProfile/profile/changeMail/MT_activateMail.html.twig", ["url" => $url]);
-    $text=$this->renderView("@SvcProfile/profile/changeMail/MT_activateMail.text.twig", ["url" => $url]);
+    $html=$this->twig->render("@SvcProfile/profile/changeMail/MT_activateMail.html.twig", ["url" => $url]);
+    $text=$this->twig->render("@SvcProfile/profile/changeMail/MT_activateMail.text.twig", ["url" => $url]);
     return $this->mailerHelper->send($newMail,"Activate new mail address", $html, $text);
   }
 
@@ -105,9 +116,9 @@ class ChangeMailHelper extends AbstractController
   public function sendActivationDoneMail($oldMail, $newMail) {
     $url=EnvInfoHelper::getURLtoIndexPhp();
 
-    $html=$this->renderView("@SvcProfile/profile/changeMail/MT_mailChanged.html.twig", [
+    $html=$this->twig->render("@SvcProfile/profile/changeMail/MT_mailChanged.html.twig", [
       "startPage" => $url, "newMail" => $newMail, "oldMail" => $oldMail]);
-    $text=$this->renderView("@SvcProfile/profile/changeMail/MT_mailChanged.text.twig", [
+    $text=$this->twig->render("@SvcProfile/profile/changeMail/MT_mailChanged.text.twig", [
       "startPage" => $url, "newMail" => $newMail, "oldMail" => $oldMail]);
 
     return $this->mailerHelper->send($oldMail,"Mail address changed", $html, $text);

@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "v1.1.2";
-$message = "allow external storage for hash secret key";
+$version = "v1.1.3";
+$message = "remove extending ChangeMailHelper from AbstractController";
 
 file_put_contents("README.md", "\n* Version " . $version . ": " . $message, FILE_APPEND);
 
