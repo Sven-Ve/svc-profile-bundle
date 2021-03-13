@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "v1.1.3";
-$message = "remove extending ChangeMailHelper from AbstractController";
+$version = "v1.1.4";
+$message = "request php >7.4.0 or >8.0.0";
 
 file_put_contents("README.md", "\n* Version " . $version . ": " . $message, FILE_APPEND);
 
