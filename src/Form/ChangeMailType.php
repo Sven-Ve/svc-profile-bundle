@@ -28,7 +28,7 @@ class ChangeMailType extends AbstractType
       }
         
       $builder
-        ->add('Save',SubmitType::class, ['attr' => ['class' => 'btn btn-lg btn-primary btn-block']])
+        ->add('Change',SubmitType::class, ['attr' => ['class' => 'btn btn-lg btn-primary btn-block']])
       ;
   }
 
