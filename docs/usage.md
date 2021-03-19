@@ -1,13 +1,14 @@
 Usage
 =====
 
-* adapt the default url prefix in config/routes/svc_profile.yaml
+* adapt the default url prefix in config/routes/svc_profile.yaml and enable translation (if you like it)
 
 ```yaml
 # /config/routes/svc_profile.yaml
 _svc_profile:
     resource: '@SvcProfileBundle/src/Resources/config/routes.xml'
-    prefix: /profile/svc
+    prefix: /svc-profile/{_locale}
+    requirements: {"_locale": "%app.supported_locales%"}
 ```
 
 Generate a sha256-secret key (you can use https://passwordsgenerator.net/sha256-hash-generator for it) and store the key in .env (or better .env.local)

@@ -1,6 +1,7 @@
-<h2>Password changed</h2>
+{% trans_default_domain 'ProfileBundle' %}
+<h2>{% trans %}Password changed{% endtrans %}</h2>
 
-We changed your password for user {{ mail }}.<br>
-If you did not initiate this change, please reset the password and contact support.
+{% trans %}We changed the password for user %mail%.{% endtrans %}<br>
+{% trans %}If you did not initiate this change, please reset the password and contact support.{% endtrans %}
 <br /><br />
-<a href='{{ startPage }}'>Start page</a>
+<a href='{{ startPage }}'>{% trans %}Start page{% endtrans %}</a>

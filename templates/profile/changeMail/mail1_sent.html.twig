@@ -1,11 +1,13 @@
+{% trans_default_domain 'ProfileBundle' %}
 {% extends 'base.html.twig' %}
 
 {% block title %}{% trans %}Mail sent{% endtrans %}{% endblock %}
 
 {% block body %}
-<h1>Mail sent</h1>
+{% trans_default_domain 'ProfileBundle' %}
+<h1>{% trans %}Mail sent{% endtrans %}</h1>
 
-We sent a mail to {{ newMail }}. Please check it and confirm the change.
+{% trans %}We sent a mail to %newMail%.{% endtrans %} {% trans %}Please check it and confirm the change.{% endtrans %}
 
 
 {% endblock %}

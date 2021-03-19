@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Controller for change password
@@ -21,17 +22,20 @@ class ChangePWController extends AbstractController
 
   private $mailerHelper;
   private $enableCaptcha;
-  public function __construct(MailerHelper $mailerHelper, $enableCaptcha)
+  private $translator;
+
+  public function __construct(MailerHelper $mailerHelper, $enableCaptcha, TranslatorInterface $translator)
   {
     $this->mailerHelper = $mailerHelper;
     $this->enableCaptcha = $enableCaptcha;
+    $this->translator = $translator;
   }
 
   public function startForm(Request $request, CustomAuthenticator $customAuth, UserPasswordEncoderInterface $passwordEncoder): Response
   { 
     $user = $this->getUser();
     if (!$user) {
-      $this->addFlash("warning", "Please login before changing password.");
+      $this->addFlash("warning", $this->t("Please login before changing password."));
       return ($this->redirectToRoute("app_login"));
       exit;
     }
@@ -53,14 +57,14 @@ class ChangePWController extends AbstractController
         $entityManager->persist($user);
         $entityManager->flush();
         if ($this->sendPasswordChangedMail($user->getEmail())) {
-          $this->addFlash("success", "Password changed, please login");
+          $this->addFlash("success", $this->t("Password changed, please login"));
         } else {
-          $this->addFlash("warning", "Password changed, please login. But cannot send info mail to " . $user->getEmail());
+          $this->addFlash("warning", $this->t("Password changed, please login") . ". But cannot send info mail to " . $user->getEmail());
         }
 
         return ($this->redirectToRoute("app_login"));
       } else {
-        $this->addFlash("danger", "Wrong password, please try again!");
+        $this->addFlash("danger", $this->t("Wrong password, please try again!"));
         return ($this->redirectToRoute("svc_profile_change_pw_start"));
         exit;
         }
@@ -76,11 +80,16 @@ class ChangePWController extends AbstractController
    * @return boolean true if mail sent
    */
   public function sendPasswordChangedMail($mail) {
-
     $url=EnvInfoHelper::getURLtoIndexPhp();
     $html=$this->renderView("@SvcProfile/profile/changePW/MT_pwChanged.html.twig", ["startPage" => $url, "mail" => $mail]);
     $text=$this->renderView("@SvcProfile/profile/changePW/MT_pwChanged.text.twig", ["startPage" => $url, "mail" => $mail]);
-    return $this->mailerHelper->send($mail, "Password changed", $html, $text);
+    return $this->mailerHelper->send($mail, $this->t("Password changed"), $html, $text);
   }
 
+  /**
+   * private function to translate content in namespace 'ProfileBundle'
+   */
+  private function t($text) {
+    return $this->translator->trans($text, [], 'ProfileBundle');
+  }
 }

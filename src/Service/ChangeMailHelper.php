@@ -11,6 +11,7 @@ use Svc\UtilBundle\Service\EnvInfoHelper;
 use Svc\UtilBundle\Service\MailerHelper;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
 /**
@@ -34,6 +35,7 @@ class ChangeMailHelper
   private $token;
   private $twig;
   private $router;
+  private $translator;
 
   
   public function __construct(
@@ -42,7 +44,8 @@ class ChangeMailHelper
     MailerHelper $mailerHelper, 
     UserRepository $userRep,
     Environment $twig,
-    RouterInterface $router)
+    RouterInterface $router,
+    TranslatorInterface $translator)
   {
     $this->userChangeRep = $userChangeRep;
     $this->entityManager = $entityManager;
@@ -50,6 +53,7 @@ class ChangeMailHelper
     $this->userRep = $userRep;
     $this->twig = $twig;
     $this->router = $router;
+    $this->translator = $translator;
   }
 
   public function checkExpiredRequest($user) {
@@ -105,7 +109,8 @@ class ChangeMailHelper
 
     $html=$this->twig->render("@SvcProfile/profile/changeMail/MT_activateMail.html.twig", ["url" => $url]);
     $text=$this->twig->render("@SvcProfile/profile/changeMail/MT_activateMail.text.twig", ["url" => $url]);
-    return $this->mailerHelper->send($newMail,"Activate new mail address", $html, $text);
+    $subject = $this->translator->trans("Activate new email address", [], 'ProfileBundle');
+    return $this->mailerHelper->send($newMail, $subject, $html, $text);
   }
 
   /**
@@ -121,7 +126,8 @@ class ChangeMailHelper
     $text=$this->twig->render("@SvcProfile/profile/changeMail/MT_mailChanged.text.twig", [
       "startPage" => $url, "newMail" => $newMail, "oldMail" => $oldMail]);
 
-    return $this->mailerHelper->send($oldMail,"Mail address changed", $html, $text);
+    $subject = $this->translator->trans("Email address changed", [], 'ProfileBundle');
+    return $this->mailerHelper->send($oldMail, $subject, $html, $text);
   }
 
   /**

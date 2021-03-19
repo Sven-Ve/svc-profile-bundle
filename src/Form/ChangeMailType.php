@@ -34,6 +34,9 @@ class ChangeMailType extends AbstractType
 
   public function configureOptions(OptionsResolver $resolver)
   {
-    $resolver->setDefaults(['enableCaptcha' => null]);
+    $resolver->setDefaults([
+      'enableCaptcha' => null,
+      'translation_domain' => 'ProfileBundle'
+      ]);
   }
 }

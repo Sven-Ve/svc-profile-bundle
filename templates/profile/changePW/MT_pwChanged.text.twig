@@ -1,4 +1,5 @@
-We changed your password for user {{ mail }}.
-If you did not initiate this change, please reset the password and contact support.
+{% trans_default_domain 'ProfileBundle' %}
+{% trans %}We changed the password for user %mail%.{% endtrans %}
+{% trans %}If you did not initiate this change, please reset the password and contact support.{% endtrans %}
 
-Start page: {{ startPage }}
+{% trans %}Start page{% endtrans %}: {{ startPage }}

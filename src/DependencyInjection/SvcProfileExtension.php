@@ -33,7 +33,8 @@ class SvcProfileExtension extends Extension
     if (!file_exists($fileName)) {
       $text="_svc_profile:\n";
       $text.="    resource: '@SvcProfileBundle/src/Resources/config/routes.xml'\n";
-      $text.="    prefix: /profile/svc\n";
+      $text.="    prefix: /svc-profile/{_locale}\n";
+      $text.='    requirements: {"_locale": "%app.supported_locales%"}}\n';
       file_put_contents($fileName, $text);
     }
 

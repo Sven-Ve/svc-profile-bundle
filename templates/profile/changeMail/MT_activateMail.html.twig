@@ -1,3 +1,4 @@
-<h2>Confirm new mail address</h2>
+{% trans_default_domain 'ProfileBundle' %}
+<h2>{% trans %}Confirm new mail address{% endtrans %}</h2>
 
-Please click <a href='{{url}}'>here</a> to activate your new address.
+{% trans %}Please click here to activate your new email{% endtrans %}: <a href='{{url}}'>Link</a> 

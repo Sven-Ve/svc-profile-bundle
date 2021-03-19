@@ -9,6 +9,7 @@ use Svc\UtilBundle\Service\MailerHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Controller for change mail in user
@@ -18,23 +19,22 @@ use Symfony\Component\HttpFoundation\Response;
 class ChangeMailController extends AbstractController
 {
 
-  private const TOKENLIFETIME = 3600;
-
   private $helper;
-
   private $enableCaptcha;
-  public function __construct(ChangeMailHelper $helper, $enableCaptcha)
+  private $translator;
+
+  public function __construct(ChangeMailHelper $helper, $enableCaptcha, TranslatorInterface $translator)
   {
     $this->helper = $helper;
     $this->enableCaptcha = $enableCaptcha;
+    $this->translator = $translator;
   }
-
 
   public function startForm(Request $request, CustomAuthenticator $customAuth, MailerHelper $mailHelper): Response
   { 
     $user = $this->getUser();
     if (!$user) {
-      $this->addFlash("warning", "Please login before changing email address.");
+      $this->addFlash("warning", $this->t("Please login before changing email address."));
       return ($this->redirectToRoute("app_login"));
       exit;
     }
@@ -46,13 +46,14 @@ class ChangeMailController extends AbstractController
 
     if ($form->isSubmitted() && $form->isValid()) {
       if (strtolower($user->getEmail()) == strtolower($newMail)) {
-        $this->addFlash("danger","You have to enter a new mail address. $newMail is your old one.");
+        $this->addFlash("danger",
+          $this->t("You have to enter a new mail address. 'newMail' is your old one.",['newMail' => $newMail]));
         return ($this->redirectToRoute("svc_profile_change_mail_start"));
         exit;
       }
 
       if (!$this->helper->checkExpiredRequest($user)) {
-        $this->addFlash("danger","You requested already a mail change. Please check your mail to confirm it.");
+        $this->addFlash("danger",$this->t("You requested already a mail change. Please check your mail to confirm it."));
         return ($this->redirectToRoute("svc_profile_change_mail_start"));
         exit;
       }
@@ -75,7 +76,7 @@ class ChangeMailController extends AbstractController
         }
         return ($this->redirectToRoute("svc_profile_change_mail_sent1", ['newmail' => $newMail]));
       } else {
-        $this->addFlash("danger", "Wrong password");
+        $this->addFlash("danger", $this->t("Wrong password, please try again!"));
         return ($this->redirectToRoute("svc_profile_change_mail_start"));
         exit;
         }
@@ -96,13 +97,19 @@ class ChangeMailController extends AbstractController
   public function activateNewMail(Request $request): Response {
     $token=$_GET['token'] ?? '?';
     if (!$this->helper->activateNewMail($token)) {
-      $this->addFlash("danger", "Request is expired or not found. Please start again");
+      $this->addFlash("danger", $this->t("Request is expired or not found. Please start again"));
       return ($this->redirectToRoute("svc_profile_change_mail_start"));
       exit;
     }
 
-    $this->addFlash("success", "Your new mail is activated. Please re-login.");
+    $this->addFlash("success", $this->t("Your new mail is activated. Please re-login."));
     return ($this->redirectToRoute("app_login"));
+  }
 
+  /**
+   * private function to translate content in namespace 'ProfileBundle'
+   */
+  private function t($text, $placeholder = []) {
+    return $this->translator->trans($text, $placeholder, 'ProfileBundle');
   }
 }
