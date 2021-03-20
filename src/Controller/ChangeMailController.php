@@ -5,14 +5,13 @@ namespace Svc\ProfileBundle\Controller;
 use App\Security\CustomAuthenticator;
 use Svc\ProfileBundle\Form\ChangeMailType;
 use Svc\ProfileBundle\Service\ChangeMailHelper;
-use Svc\UtilBundle\Service\MailerHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Controller for change mail in user
+ * Controller for change mail in user entity
  *
  * @author Sven Vetter <dev@sv-systems.com>
  */
@@ -30,7 +29,7 @@ class ChangeMailController extends AbstractController
     $this->translator = $translator;
   }
 
-  public function startForm(Request $request, CustomAuthenticator $customAuth, MailerHelper $mailHelper): Response
+  public function startForm(Request $request, CustomAuthenticator $customAuth): Response
   { 
     $user = $this->getUser();
     if (!$user) {
