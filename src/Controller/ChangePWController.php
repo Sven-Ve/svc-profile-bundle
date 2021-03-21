@@ -31,6 +31,14 @@ class ChangePWController extends AbstractController
     $this->translator = $translator;
   }
 
+  /**
+   * Display and handle a form to start the process of changing the password
+   *
+   * @param Request $request
+   * @param CustomAuthenticator $customAuth
+   * @param UserPasswordEncoderInterface $passwordEncoder
+   * @return Response
+   */
   public function startForm(Request $request, CustomAuthenticator $customAuth, UserPasswordEncoderInterface $passwordEncoder): Response
   { 
     $user = $this->getUser();
@@ -73,13 +81,13 @@ class ChangePWController extends AbstractController
     return $this->render('@SvcProfile/profile/changePW/start.html.twig', ['form' => $form->createView()]);
   }
 
-
   /**
    * send a mail with info anout password change
-   * 
-   * @return boolean true if mail sent
+   *
+   * @param string $mail email address to send
+   * @return bool
    */
-  public function sendPasswordChangedMail($mail) {
+  public function sendPasswordChangedMail(string $mail): bool {
     $url=EnvInfoHelper::getURLtoIndexPhp();
     $html=$this->renderView("@SvcProfile/profile/changePW/MT_pwChanged.html.twig", ["startPage" => $url, "mail" => $mail]);
     $text=$this->renderView("@SvcProfile/profile/changePW/MT_pwChanged.text.twig", ["startPage" => $url, "mail" => $mail]);
@@ -88,8 +96,11 @@ class ChangePWController extends AbstractController
 
   /**
    * private function to translate content in namespace 'ProfileBundle'
+   *
+   * @param string $text
+   * @return string
    */
-  private function t($text) {
+  private function t(string $text): string {
     return $this->translator->trans($text, [], 'ProfileBundle');
   }
 }

@@ -22,13 +22,20 @@ class ChangeMailController extends AbstractController
   private $enableCaptcha;
   private $translator;
 
-  public function __construct(ChangeMailHelper $helper, $enableCaptcha, TranslatorInterface $translator)
+  public function __construct(ChangeMailHelper $helper, bool $enableCaptcha, TranslatorInterface $translator)
   {
     $this->helper = $helper;
     $this->enableCaptcha = $enableCaptcha;
     $this->translator = $translator;
   }
 
+  /**
+   * Display and handle a form to start the process of changing the mail address
+   *
+   * @param Request $request
+   * @param CustomAuthenticator $customAuth
+   * @return Response
+   */
   public function startForm(Request $request, CustomAuthenticator $customAuth): Response
   { 
     $user = $this->getUser();
@@ -93,6 +100,12 @@ class ChangeMailController extends AbstractController
     ]);
   }
 
+  /**
+   * Public method to activate the new mail address via token
+   *
+   * @param Request $request
+   * @return Response
+   */
   public function activateNewMail(Request $request): Response {
     $token=$_GET['token'] ?? '?';
     if (!$this->helper->activateNewMail($token)) {
@@ -107,8 +120,12 @@ class ChangeMailController extends AbstractController
 
   /**
    * private function to translate content in namespace 'ProfileBundle'
+   *
+   * @param string $text
+   * @param array $placeholder
+   * @return string
    */
-  private function t($text, $placeholder = []) {
+  private function t(string $text, array $placeholder = []):string {
     return $this->translator->trans($text, $placeholder, 'ProfileBundle');
   }
 }

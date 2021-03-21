@@ -4,13 +4,6 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services
         http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
-      <service id="svc_profile.controller.bundle" class="Svc\ProfileBundle\Controller\BundleController" public="true">
-        <call method="setContainer">
-            <argument type="service" id="Psr\Container\ContainerInterface"/>
-        </call>
-        <tag name="container.service_subscriber"/>
-      </service>
-
       <service id="svc_profile.controller.change-mail" class="Svc\ProfileBundle\Controller\ChangeMailController" public="true" autowire="true" >
         <call method="setContainer">
             <argument type="service" id="Psr\Container\ContainerInterface"/>
