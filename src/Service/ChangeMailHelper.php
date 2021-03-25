@@ -58,7 +58,6 @@ class ChangeMailHelper
 
   public function checkExpiredRequest($user) {
     $entry = $this->userChangeRep->findOneBy(["user"=>$user, "changeType" => static::TYPCHANGEMAIL]);
-
     if (!$entry) {
       return true;
     }

@@ -6,6 +6,10 @@
     colors="true"
     bootstrap="vendor/autoload.php"
 >
+    <php>
+        <env name="KERNEL_CLASS" value="Svc\ProfileBundle\Tests\SvcProfileTestingKernel" />
+    </php>
+
     <testsuites>
         <testsuite name="Test Suite">
             <directory>./tests</directory>
