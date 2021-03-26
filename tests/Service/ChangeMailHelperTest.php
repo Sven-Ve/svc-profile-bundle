@@ -65,7 +65,8 @@ class ChangeMailHelperTest extends TestCase
    *
    * @return void
    */
-  public function testClassLoad() {
+  public function testClassLoad()
+  {
     $this->assertInstanceOf(ChangeMailHelper::class, $this->changeMailHelper);
   }
 
@@ -90,27 +91,6 @@ class ChangeMailHelperTest extends TestCase
   }
 
   /**
-   * check, if email address exists
-   *
-   * @return void
-   */
-  public function testCheckMailExists() {
-    $email = "test@test.com";
-
-    $user = new User();
-    $user->setEmail($email);
-
-
-    $this->userRep
-      ->method('findOneBy')
-      ->willReturn($user);
-
-    $result = $this->changeMailHelper->checkMailExists($email);
-    $this->assertEquals($email, $result->getEmail());
-
-  }
-
-  /**
    * Check, if Change record expired (Case 2 = expired)
    *
    * @return void
@@ -128,6 +108,43 @@ class ChangeMailHelperTest extends TestCase
 
     $result = $this->changeMailHelper->checkExpiredRequest($user);
     $this->assertTrue($result);
+  }
+
+  /**
+   * check, if email address exists (Case 1 = email exists)
+   *
+   * @return void
+   */
+  public function testCheckMailExists1()
+  {
+    $email = "test@test.com";
+
+    $user = new User();
+    $user->setEmail($email);
+
+    $this->userRep
+      ->method('findOneBy')
+      ->willReturn($user);
+
+    $result = $this->changeMailHelper->checkMailExists($email);
+    $this->assertEquals($email, $result->getEmail());
+  }
+
+  /**
+   * check, if email address exists (Case 2 = email not exists)
+   *
+   * @return void
+   */
+  public function testCheckMailExists2()
+  {
+    $email = "test@test.com";
+
+    $this->userRep
+      ->method('findOneBy')
+      ->willReturn(null);
+
+    $result = $this->changeMailHelper->checkMailExists($email);
+    $this->assertNull($result);
   }
 
   /**
