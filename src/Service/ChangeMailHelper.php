@@ -21,13 +21,13 @@ use Twig\Environment;
  */
 class ChangeMailHelper
 {
-  
+
   private const TOKENLIFETIME = 3600;
 
   # generated with https://passwordsgenerator.net/sha256-hash-generator/
   private const SECRETKEY = "23573BE852F6D1C73B314809E940F19F3D00EF1CD99147462861BB714E68DCC1";
   private const TYPCHANGEMAIL = 1;
-  
+
   private $userChangeRep;
   private $userRep;
   private $entityManager;
@@ -37,16 +37,16 @@ class ChangeMailHelper
   private $router;
   private $translator;
 
-  
+
   public function __construct(
-    UserChangesRepository $userChangeRep, 
-    EntityManagerInterface $entityManager, 
-    MailerHelper $mailerHelper, 
+    UserChangesRepository $userChangeRep,
+    EntityManagerInterface $entityManager,
+    MailerHelper $mailerHelper,
     UserRepository $userRep,
     Environment $twig,
     RouterInterface $router,
-    TranslatorInterface $translator)
-  {
+    TranslatorInterface $translator
+  ) {
     $this->userChangeRep = $userChangeRep;
     $this->entityManager = $entityManager;
     $this->mailerHelper = $mailerHelper;
@@ -56,8 +56,9 @@ class ChangeMailHelper
     $this->translator = $translator;
   }
 
-  public function checkExpiredRequest($user) {
-    $entry = $this->userChangeRep->findOneBy(["user"=>$user, "changeType" => static::TYPCHANGEMAIL]);
+  public function checkExpiredRequest($user)
+  {
+    $entry = $this->userChangeRep->findOneBy(["user" => $user, "changeType" => static::TYPCHANGEMAIL]);
     if (!$entry) {
       return true;
     }
@@ -73,17 +74,24 @@ class ChangeMailHelper
 
   /**
    * Check, if user record with this mail adress exists
+   *
+   * @param string $email email address to be checked
+   * @return User|null
    */
-  public function checkMailExists($email) {
+  public function checkMailExists(string $email): ?User
+  {
     return $this->userRep->findOneBy(['email' => $email]);
   }
 
   /**
    * write the change record in table userChanges
+   *
+   * @param User $user
+   * @param string $newMail
+   * @return void
    */
-  public function writeUserChangeRecord(User $user, $newMail) {
-    // $expiresAt = new \DateTimeImmutable(\sprintf('+%d seconds', static::TOKENLIFETIME));
-
+  public function writeUserChangeRecord(User $user, string $newMail): void
+  {
     $change = new UserChanges();
     $change->setUser($user);
     $change->setChangeType(static::TYPCHANGEMAIL);
@@ -102,12 +110,13 @@ class ChangeMailHelper
    * 
    * @return boolean true if mail sent
    */
-  public function sendActivationMail($newMail) {
+  public function sendActivationMail($newMail)
+  {
     $token = $this->getToken();
-    $url=$this->router->generate('svc_profile_change_mail_activate', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
+    $url = $this->router->generate('svc_profile_change_mail_activate', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
 
-    $html=$this->twig->render("@SvcProfile/profile/changeMail/MT_activateMail.html.twig", ["url" => $url]);
-    $text=$this->twig->render("@SvcProfile/profile/changeMail/MT_activateMail.text.twig", ["url" => $url]);
+    $html = $this->twig->render("@SvcProfile/profile/changeMail/MT_activateMail.html.twig", ["url" => $url]);
+    $text = $this->twig->render("@SvcProfile/profile/changeMail/MT_activateMail.text.twig", ["url" => $url]);
     $subject = $this->translator->trans("Activate new email address", [], 'ProfileBundle');
     return $this->mailerHelper->send($newMail, $subject, $html, $text);
   }
@@ -117,13 +126,16 @@ class ChangeMailHelper
    * 
    * @return boolean true if mail sent
    */
-  public function sendActivationDoneMail($oldMail, $newMail) {
-    $url=EnvInfoHelper::getURLtoIndexPhp();
+  public function sendActivationDoneMail($oldMail, $newMail)
+  {
+    $url = EnvInfoHelper::getURLtoIndexPhp();
 
-    $html=$this->twig->render("@SvcProfile/profile/changeMail/MT_mailChanged.html.twig", [
-      "startPage" => $url, "newMail" => $newMail, "oldMail" => $oldMail]);
-    $text=$this->twig->render("@SvcProfile/profile/changeMail/MT_mailChanged.text.twig", [
-      "startPage" => $url, "newMail" => $newMail, "oldMail" => $oldMail]);
+    $html = $this->twig->render("@SvcProfile/profile/changeMail/MT_mailChanged.html.twig", [
+      "startPage" => $url, "newMail" => $newMail, "oldMail" => $oldMail
+    ]);
+    $text = $this->twig->render("@SvcProfile/profile/changeMail/MT_mailChanged.text.twig", [
+      "startPage" => $url, "newMail" => $newMail, "oldMail" => $oldMail
+    ]);
 
     $subject = $this->translator->trans("Email address changed", [], 'ProfileBundle');
     return $this->mailerHelper->send($oldMail, $subject, $html, $text);
@@ -132,9 +144,10 @@ class ChangeMailHelper
   /**
    * activate new mail adress (write in Users table and delete from UserChanges table)
    */
-  public function activateNewMail($token) {
-    $tokenHash=$this->getTokenHash($token);
-    $entry = $this->userChangeRep->findOneBy(["hashedToken"=>$tokenHash]);
+  public function activateNewMail($token)
+  {
+    $tokenHash = $this->getTokenHash($token);
+    $entry = $this->userChangeRep->findOneBy(["hashedToken" => $tokenHash]);
 
     if (!$entry) {
       return false;
@@ -178,5 +191,4 @@ class ChangeMailHelper
     $secretKey = $_ENV['SVC_PROFILE_HASH_SECRET'] ?? static::SECRETKEY;
     return hash_hmac('sha256', $token, $secretKey);  // sha256 = 64 chars
   }
-
 }
