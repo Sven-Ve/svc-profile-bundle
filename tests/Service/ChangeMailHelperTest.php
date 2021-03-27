@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Svc\ProfileBundle\Tests\Service;
 
-require "UserRepositoryDummy.php";
+require_once "UserRepositoryDummy.php";
 
 use App\Entity\User;
 use App\Repository\UserRepository;

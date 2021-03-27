@@ -93,6 +93,12 @@ class ChangeMailController extends AbstractController
     ]);
   }
 
+  /**
+   * info page about sending the first mail
+   *
+   * @param Request $request
+   * @return Response
+   */
   public function mail1Sent(Request $request): Response {
     $newMail=$_GET['newmail'] ?? '?';
     return $this->render('@SvcProfile/profile/changeMail/mail1_sent.html.twig', [
