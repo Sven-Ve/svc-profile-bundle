@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Repository;
-require_once(__dir__ . "/../Service/UserDummy.php");
+require_once(__dir__ . "/UserDummy.php");
 
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;

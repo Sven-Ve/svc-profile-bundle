@@ -3,11 +3,10 @@
 declare(strict_types=1);
 
 
-namespace Svc\ProfileBundle\Tests\Controller;
+namespace Svc\ProfileBundle\Tests;
 
-require_once(__dir__ . "/../Service/UserRepositoryDummy.php");
-require_once(__dir__ . "/../Service/UserDummy.php");
-require_once(__dir__ . "/../Dummy/CustomAuthenticatorDummy.php");
+require_once(__dir__ . "/Dummy/UserRepositoryDummy.php");
+require_once(__dir__ . "/Dummy/UserDummy.php");
 
 use App\Repository\UserRepository;
 use App\Security\CustomAuthenticator;
@@ -16,14 +15,13 @@ use Svc\ProfileBundle\SvcProfileBundle;
 use Svc\UtilBundle\SvcUtilBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
-use Symfony\Bundle\SecurityBundle\SecurityBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
-class SvcProfileControllerKernel extends Kernel
+class SvcProfileKernel extends Kernel
 {
   use MicroKernelTrait;
 
@@ -35,7 +33,6 @@ class SvcProfileControllerKernel extends Kernel
    * @param array             $routes  Routes to be added to the container e.g. ['name' => 'path']
    * @param BundleInterface[] $bundles Additional bundles to be registered e.g. [new Bundle()]
    */
-  
   public function __construct(ContainerBuilder $builder = null, array $routes = [], array $bundles = [])
   {
     $this->builder = $builder;
@@ -53,7 +50,6 @@ class SvcProfileControllerKernel extends Kernel
       new DoctrineBundle(),
       new SvcUtilBundle(),
       new TwigBundle(),
-      new SecurityBundle()
     ];
   }
 
@@ -79,7 +75,6 @@ class SvcProfileControllerKernel extends Kernel
           ],
         ]
       );
-
       
       $container->loadFromExtension('doctrine', [
         'dbal' => [
@@ -121,17 +116,22 @@ class SvcProfileControllerKernel extends Kernel
       ]);
       */
 
-      $container->register('kernel', static::class)
-        ->setPublic(true);
+      $container->register('kernel', static::class)->setPublic(true);
 
       $kernelDefinition = $container->getDefinition('kernel');
       $kernelDefinition->addTag('routing.route_loader');
     });
   }
 
+  /**
+   * load bundle routes
+   *
+   * @param RoutingConfigurator $routes
+   * @return void
+   */
   protected function configureRoutes(RoutingConfigurator $routes)
   {
-    $routes->import(__DIR__.'/../../src/Resources/config/routes.xml')->prefix('/api');
+    $routes->import(__DIR__.'/../src/Resources/config/routes.xml')->prefix('/api');
   }
 
   protected function configureContainer(ContainerBuilder $c, LoaderInterface $loader)
