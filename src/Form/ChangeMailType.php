@@ -16,20 +16,19 @@ class ChangeMailType extends AbstractType
 {
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
-      $builder
-        ->add('email', EmailType::class, ['label' => 'New mail', "attr" => ["autofocus"=>true]])
-        ->add('password', PasswordType::class, [ 'help' => 'Please enter your password to check your identity']);
+    $builder
+      ->add('email', EmailType::class, ['label' => 'New mail', "attr" => ["autofocus" => true]])
+      ->add('password', PasswordType::class, ['help' => 'Please enter your password to check your identity']);
 
-      if ($options['enableCaptcha']) {
-        $builder->add('recaptcha', EWZRecaptchaV3Type::class, [ 
-          "action_name" => "form",
-          'constraints' => array(new IsTrueV3())
-        ]);
-      }
-        
-      $builder
-        ->add('Change',SubmitType::class, ['attr' => ['class' => 'btn btn-lg btn-primary btn-block']])
-      ;
+    if ($options['enableCaptcha']) {
+      $builder->add('recaptcha', EWZRecaptchaV3Type::class, [
+        "action_name" => "form",
+        'constraints' => array(new IsTrueV3())
+      ]);
+    }
+
+    $builder
+      ->add('Change', SubmitType::class, ['attr' => ['class' => 'btn btn-lg btn-primary btn-block']]);
   }
 
   public function configureOptions(OptionsResolver $resolver)
@@ -37,6 +36,6 @@ class ChangeMailType extends AbstractType
     $resolver->setDefaults([
       'enableCaptcha' => null,
       'translation_domain' => 'ProfileBundle'
-      ]);
+    ]);
   }
 }

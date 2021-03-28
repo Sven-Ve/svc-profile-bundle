@@ -40,7 +40,7 @@ class ChangePWController extends AbstractController
    * @return Response
    */
   public function startForm(Request $request, CustomAuthenticator $customAuth, UserPasswordEncoderInterface $passwordEncoder): Response
-  { 
+  {
     $user = $this->getUser();
     if (!$user) {
       $this->addFlash("warning", $this->t("Please login before changing password."));
@@ -55,9 +55,8 @@ class ChangePWController extends AbstractController
 
     if ($form->isSubmitted() && $form->isValid()) {
 
-      $credential = [ 'password' => $form->get('password')->getData()];
-      if ($customAuth->checkCredentials($credential, $user))
-      {
+      $credential = ['password' => $form->get('password')->getData()];
+      if ($customAuth->checkCredentials($credential, $user)) {
         $newPW = trim($form->get('plainPassword')->getData());
         $user->setPassword($passwordEncoder->encodePassword($user, $newPW));
 
@@ -75,7 +74,7 @@ class ChangePWController extends AbstractController
         $this->addFlash("danger", $this->t("Wrong password, please try again!"));
         return ($this->redirectToRoute("svc_profile_change_pw_start"));
         exit;
-        }
+      }
     }
 
     return $this->render('@SvcProfile/profile/changePW/start.html.twig', ['form' => $form->createView()]);
@@ -87,10 +86,11 @@ class ChangePWController extends AbstractController
    * @param string $mail email address to send
    * @return bool
    */
-  public function sendPasswordChangedMail(string $mail): bool {
-    $url=EnvInfoHelper::getURLtoIndexPhp();
-    $html=$this->renderView("@SvcProfile/profile/changePW/MT_pwChanged.html.twig", ["startPage" => $url, "mail" => $mail]);
-    $text=$this->renderView("@SvcProfile/profile/changePW/MT_pwChanged.text.twig", ["startPage" => $url, "mail" => $mail]);
+  public function sendPasswordChangedMail(string $mail): bool
+  {
+    $url = EnvInfoHelper::getURLtoIndexPhp();
+    $html = $this->renderView("@SvcProfile/profile/changePW/MT_pwChanged.html.twig", ["startPage" => $url, "mail" => $mail]);
+    $text = $this->renderView("@SvcProfile/profile/changePW/MT_pwChanged.text.twig", ["startPage" => $url, "mail" => $mail]);
     return $this->mailerHelper->send($mail, $this->t("Password changed"), $html, $text);
   }
 
@@ -100,7 +100,8 @@ class ChangePWController extends AbstractController
    * @param string $text
    * @return string
    */
-  private function t(string $text): string {
+  private function t(string $text): string
+  {
     return $this->translator->trans($text, [], 'ProfileBundle');
   }
 }

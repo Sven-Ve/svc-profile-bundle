@@ -14,15 +14,15 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class UserChangesRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, UserChanges::class);
-    }
+  public function __construct(ManagerRegistry $registry)
+  {
+    parent::__construct($registry, UserChanges::class);
+  }
 
-    // /**
-    //  * @return UserChanges[] Returns an array of UserChanges objects
-    //  */
-    /*
+  // /**
+  //  * @return UserChanges[] Returns an array of UserChanges objects
+  //  */
+  /*
     public function findByExampleField($value)
     {
         return $this->createQueryBuilder('u')
@@ -36,7 +36,7 @@ class UserChangesRepository extends ServiceEntityRepository
     }
     */
 
-    /*
+  /*
     public function findOneBySomeField($value): ?UserChanges
     {
         return $this->createQueryBuilder('u')
