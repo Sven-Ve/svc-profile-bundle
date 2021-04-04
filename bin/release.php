@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "v1.2.0";
-$message = "Translation to DE";
+$version = "v1.3.0";
+$message = "added tests";
 
 file_put_contents("README.md", "\n* Version " . $version . ": " . $message, FILE_APPEND);
 
