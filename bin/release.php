@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "v1.3.0";
-$message = "added tests";
+$version = "v1.3.1";
+$message = "require svc-utilbundle >= 1.0";
 
 file_put_contents("README.md", "\n* Version " . $version . ": " . $message, FILE_APPEND);
 

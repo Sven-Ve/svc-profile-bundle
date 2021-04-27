@@ -16,3 +16,4 @@ Versions
 * Version v1.1.4: request php >7.4.0 or >8.0.0
 * Version v1.2.0: Translation to DE
 * Version v1.3.0: added tests
+* Version v1.3.1: require svc-utilbundle >= 1.0
