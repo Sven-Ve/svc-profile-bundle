@@ -11,13 +11,11 @@ class Configuration implements ConfigurationInterface
   {
     $treeBuilder = new TreeBuilder('svc_profile'); # ohne Bundle, so muss es dann im yaml-file heissen
     $rootNode = $treeBuilder->getRootNode();
- 
+
     $rootNode
       ->children()
-        ->booleanNode('enableCaptcha')->defaultFalse()->info('Enable captcha for change email/password forms?')->end()
+      ->booleanNode('enableCaptcha')->defaultFalse()->info('Enable captcha for change email/password forms?')->end()
       ->end();
     return $treeBuilder;
-
   }
-
 }

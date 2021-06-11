@@ -2,7 +2,7 @@
 <?php
 
 $version = "v1.3.1";
-$message = "require svc-utilbundle >= 1.0";
+$message = "move recipe to private flex server";
 
 file_put_contents("CHANGELOG.md", "\n\n## Version " . $version, FILE_APPEND);
 file_put_contents("CHANGELOG.md", "\n*" . date("r") . "*", FILE_APPEND);

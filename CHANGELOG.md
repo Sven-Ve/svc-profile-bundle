@@ -16,3 +16,7 @@
 ## Version 1.3.0
 - require svc-utilbundle >= 1.0
 - added tests
+
+## Version v1.3.1
+*Fri, 11 Jun 2021 10:15:22 +0000*
+- move recipe to private flex server
