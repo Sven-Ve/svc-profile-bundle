@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-$version = "v1.3.1";
+$version = "v1.3.2";
 $message = "move recipe to private flex server";
 
 file_put_contents("CHANGELOG.md", "\n\n## Version " . $version, FILE_APPEND);
