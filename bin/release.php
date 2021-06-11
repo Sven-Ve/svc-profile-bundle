@@ -4,7 +4,9 @@
 $version = "v1.3.1";
 $message = "require svc-utilbundle >= 1.0";
 
-file_put_contents("README.md", "\n* Version " . $version . ": " . $message, FILE_APPEND);
+file_put_contents("CHANGELOG.md", "\n\n## Version " . $version, FILE_APPEND);
+file_put_contents("CHANGELOG.md", "\n*" . date("r") . "*", FILE_APPEND);
+file_put_contents("CHANGELOG.md", "\n- " . $message . "\n", FILE_APPEND);
 
 $res = shell_exec('git add .');
 $res = shell_exec('git commit -S -m "' . $message . '"');

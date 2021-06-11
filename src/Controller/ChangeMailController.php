@@ -37,7 +37,7 @@ class ChangeMailController extends AbstractController
    * @return Response
    */
   public function startForm(Request $request, CustomAuthenticator $customAuth): Response
-  { 
+  {
     $user = $this->getUser();
     if (!$user) {
       $this->addFlash("warning", $this->t("Please login before changing email address."));
@@ -52,44 +52,45 @@ class ChangeMailController extends AbstractController
 
     if ($form->isSubmitted() && $form->isValid()) {
       if (strtolower($user->getEmail()) == strtolower($newMail)) {
-        $this->addFlash("danger",
-          $this->t("You have to enter a new mail address. 'newMail' is your old one.",['newMail' => $newMail]));
+        $this->addFlash(
+          "danger",
+          $this->t("You have to enter a new mail address. 'newMail' is your old one.", ['newMail' => $newMail])
+        );
         return ($this->redirectToRoute("svc_profile_change_mail_start"));
         exit;
       }
 
       if (!$this->helper->checkExpiredRequest($user)) {
-        $this->addFlash("danger",$this->t("You requested already a mail change. Please check your mail to confirm it."));
+        $this->addFlash("danger", $this->t("You requested already a mail change. Please check your mail to confirm it."));
         return ($this->redirectToRoute("svc_profile_change_mail_start"));
         exit;
       }
 
       if ($this->helper->checkMailExists($newMail)) {
-        $this->addFlash("danger","Mail address $newMail already exists. Please choose another on");
+        $this->addFlash("danger", "Mail address $newMail already exists. Please choose another on");
         return ($this->redirectToRoute("svc_profile_change_mail_start"));
       }
 
-      $credential = [ 'password' => $form->get('password')->getData()];
-      if ($customAuth->checkCredentials($credential, $user))
-      {
+      $credential = ['password' => $form->get('password')->getData()];
+      if ($customAuth->checkCredentials($credential, $user)) {
 
         $this->helper->writeUserChangeRecord($user, $newMail);
 
         if (!$this->helper->sendActivationMail($newMail)) {
           $this->addFlash("danger", "Cannot send mail to $newMail. Address exists?");
           return ($this->redirectToRoute("svc_profile_change_mail_start"));
-          exit;  
+          exit;
         }
         return ($this->redirectToRoute("svc_profile_change_mail_sent1", ['newmail' => $newMail]));
       } else {
         $this->addFlash("danger", $this->t("Wrong password, please try again!"));
         return ($this->redirectToRoute("svc_profile_change_mail_start"));
         exit;
-        }
+      }
     }
 
     return $this->render('@SvcProfile/profile/changeMail/start.html.twig', [
-        'form' => $form->createView()
+      'form' => $form->createView()
     ]);
   }
 
@@ -99,8 +100,9 @@ class ChangeMailController extends AbstractController
    * @param Request $request
    * @return Response
    */
-  public function mail1Sent(Request $request): Response {
-    $newMail=$_GET['newmail'] ?? '?';
+  public function mail1Sent(Request $request): Response
+  {
+    $newMail = $_GET['newmail'] ?? '?';
     return $this->render('@SvcProfile/profile/changeMail/mail1_sent.html.twig', [
       'newMail' => $newMail
     ]);
@@ -112,8 +114,9 @@ class ChangeMailController extends AbstractController
    * @param Request $request
    * @return Response
    */
-  public function activateNewMail(Request $request): Response {
-    $token=$_GET['token'] ?? '?';
+  public function activateNewMail(Request $request): Response
+  {
+    $token = $_GET['token'] ?? '?';
     if (!$this->helper->activateNewMail($token)) {
       $this->addFlash("danger", $this->t("Request is expired or not found. Please start again"));
       return ($this->redirectToRoute("svc_profile_change_mail_start"));
@@ -131,7 +134,8 @@ class ChangeMailController extends AbstractController
    * @param array $placeholder
    * @return string
    */
-  private function t(string $text, array $placeholder = []):string {
+  private function t(string $text, array $placeholder = []): string
+  {
     return $this->translator->trans($text, $placeholder, 'ProfileBundle');
   }
 }
