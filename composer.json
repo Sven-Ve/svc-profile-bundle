@@ -12,7 +12,7 @@
   "require": {
     "php": "^7.3.0 | ^8.0.0",
     "svc/util-bundle": "^1|dev-main",
-    "symfony/framework-bundle": "^5",
+    "symfony/framework-bundle": "^5.3",
     "doctrine/annotations": "^1.11",
     "doctrine/doctrine-bundle": "^2.2",
     "doctrine/orm": "^2.8",
@@ -21,7 +21,7 @@
     "symfony/translation": "^5",
     "symfony/twig-bundle": "^4.3|^5.0",
     "twig/twig": "^2.12|^3.0",
-    "symfony/security-bundle": "^5"
+    "symfony/security-bundle": "^5.3"
   },
   "autoload": {
     "psr-4": {

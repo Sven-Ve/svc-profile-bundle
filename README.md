@@ -1,6 +1,6 @@
 Overview
 ========
 
-* [installation](docs/installation.md)
+* [Installation](docs/installation.md)
 * [Usage](docs/usage.md)
 
