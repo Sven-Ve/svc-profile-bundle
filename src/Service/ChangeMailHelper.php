@@ -56,7 +56,13 @@ class ChangeMailHelper
     $this->translator = $translator;
   }
 
-  public function checkExpiredRequest($user)
+  /**
+   * check if a request exists and if it expired
+   *
+   * @param User $user
+   * @return boolean
+   */
+  public function checkExpiredRequest(User $user): bool
   {
     $entry = $this->userChangeRep->findOneBy(["user" => $user, "changeType" => static::TYPCHANGEMAIL]);
     if (!$entry) {
@@ -110,7 +116,7 @@ class ChangeMailHelper
    * 
    * @return boolean true if mail sent
    */
-  public function sendActivationMail($newMail)
+  public function sendActivationMail(string $newMail): bool
   {
     $token = $this->getToken();
     $url = $this->router->generate('svc_profile_change_mail_activate', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
@@ -123,10 +129,12 @@ class ChangeMailHelper
 
   /**
    * send a mail to the old address to inform about the mail change.
-   * 
-   * @return boolean true if mail sent
+   *
+   * @param string $oldMail
+   * @param string $newMail
+   * @return boolean if mail sent
    */
-  public function sendActivationDoneMail($oldMail, $newMail)
+  public function sendActivationDoneMail(string $oldMail, string $newMail): bool
   {
     $url = EnvInfoHelper::getURLtoIndexPhp();
 
@@ -143,8 +151,11 @@ class ChangeMailHelper
 
   /**
    * activate new mail adress (write in Users table and delete from UserChanges table)
+   *
+   * @param string $token
+   * @return boolean
    */
-  public function activateNewMail($token)
+  public function activateNewMail(string $token): bool
   {
     $tokenHash = $this->getTokenHash($token);
     $entry = $this->userChangeRep->findOneBy(["hashedToken" => $tokenHash]);
@@ -172,8 +183,12 @@ class ChangeMailHelper
     return true;
   }
 
-
-  public function getToken()
+  /**
+   * create a token
+   *
+   * @return string
+   */
+  public function getToken(): string
   {
     if (!$this->token) {
       $this->token = bin2hex(random_bytes(16));  // 16 bytes = 128 bits = 32 hex characters
@@ -186,7 +201,7 @@ class ChangeMailHelper
    *
    * @return string The hashed value
    */
-  public function getTokenHash($token)
+  public function getTokenHash($token): string
   {
     $secretKey = $_ENV['SVC_PROFILE_HASH_SECRET'] ?? static::SECRETKEY;
     return hash_hmac('sha256', $token, $secretKey);  // sha256 = 64 chars

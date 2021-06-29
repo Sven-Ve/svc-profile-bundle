@@ -22,7 +22,7 @@ SVC_PROFILE_HASH_SECRET=D9E143E74FC3E5AE3ED5305043FC67030C43CCDA5060EA2FD464BB8C
 * integrate the change mail controller via path "svc_profile_change_mail_start"
 * integrate the change password controller via path "svc_profile_change_pw_start"
 
-* enable captcha (if installed and configured), default = false
+* enable captcha v3 (if installed and configured), default = false
 
 ```yaml
 # /config/packages/svc_profile.yaml

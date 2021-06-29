@@ -9,7 +9,7 @@ class Configuration implements ConfigurationInterface
 {
   public function getConfigTreeBuilder()
   {
-    $treeBuilder = new TreeBuilder('svc_profile'); # ohne Bundle, so muss es dann im yaml-file heissen
+    $treeBuilder = new TreeBuilder('svc_profile');
     $rootNode = $treeBuilder->getRootNode();
 
     $rootNode

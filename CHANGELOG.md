@@ -30,3 +30,8 @@
 ## Version v1.3.2
 *Fri, 11 Jun 2021 10:16:03 +0000*
 - move recipe to private flex server
+
+
+## Version v1.4.0
+*Tue, 29 Jun 2021 11:26:37 +0000*
+- first public, open source version

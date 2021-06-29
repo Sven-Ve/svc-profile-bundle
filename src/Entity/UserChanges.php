@@ -15,101 +15,101 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class UserChanges
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+  /**
+   * @ORM\Id
+   * @ORM\GeneratedValue
+   * @ORM\Column(type="integer")
+   */
+  private $id;
 
-    /**
-     * @ORM\OneToOne(targetEntity=User::class)
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $user;
+  /**
+   * @ORM\OneToOne(targetEntity=User::class)
+   * @ORM\JoinColumn(nullable=false)
+   */
+  private $user;
 
-    /**
-     * @ORM\Column(type="smallint")
-     */
-    private $changeType;
+  /**
+   * @ORM\Column(type="smallint")
+   */
+  private $changeType;
 
-    /**
-    * @ORM\Column(type="datetime")
-    */
-    private $expiresAt;
+  /**
+   * @ORM\Column(type="datetime")
+   */
+  private $expiresAt;
 
-    /**
-     * @ORM\Column(type="string", length=100, nullable=true)
-     */
-    private $newMail;
+  /**
+   * @ORM\Column(type="string", length=100, nullable=true)
+   */
+  private $newMail;
 
-    /**
-     * @ORM\Column(type="string", length=100, nullable=true, unique=true)
-     */
-    private $hashedToken;
+  /**
+   * @ORM\Column(type="string", length=100, nullable=true, unique=true)
+   */
+  private $hashedToken;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+  public function getId(): ?int
+  {
+    return $this->id;
+  }
 
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
+  public function getUser(): ?User
+  {
+    return $this->user;
+  }
 
-    public function setUser(User $user): self
-    {
-        $this->user = $user;
+  public function setUser(User $user): self
+  {
+    $this->user = $user;
 
-        return $this;
-    }
+    return $this;
+  }
 
-    public function getChangeType(): ?int
-    {
-        return $this->changeType;
-    }
+  public function getChangeType(): ?int
+  {
+    return $this->changeType;
+  }
 
-    public function setChangeType(int $changeType): self
-    {
-        $this->changeType = $changeType;
+  public function setChangeType(int $changeType): self
+  {
+    $this->changeType = $changeType;
 
-        return $this;
-    }
+    return $this;
+  }
 
-    public function getNewMail(): ?string
-    {
-        return $this->newMail;
-    }
+  public function getNewMail(): ?string
+  {
+    return $this->newMail;
+  }
 
-    public function setNewMail(?string $newMail): self
-    {
-        $this->newMail = $newMail;
+  public function setNewMail(?string $newMail): self
+  {
+    $this->newMail = $newMail;
 
-        return $this;
-    }
+    return $this;
+  }
 
-    public function getExpiresAt(): ?\DateTimeInterface
-    {
-        return $this->expiresAt;
-    }
+  public function getExpiresAt(): ?\DateTimeInterface
+  {
+    return $this->expiresAt;
+  }
 
-    public function setExpiresAt(\DateTimeInterface $expiresAt): self
-    {
-        $this->expiresAt = $expiresAt;
+  public function setExpiresAt(\DateTimeInterface $expiresAt): self
+  {
+    $this->expiresAt = $expiresAt;
 
-        return $this;
-    }
+    return $this;
+  }
 
-    public function getHashedToken(): ?string
-    {
-        return $this->hashedToken;
-    }
+  public function getHashedToken(): ?string
+  {
+    return $this->hashedToken;
+  }
 
-    public function setHashedToken(string $hashedToken): self
-    {
-        $this->hashedToken = $hashedToken;
+  public function setHashedToken(string $hashedToken): self
+  {
+    $this->hashedToken = $hashedToken;
 
-        return $this;
-    }
+    return $this;
+  }
 }
