@@ -78,7 +78,6 @@ class SvcProfileKernel extends Kernel
       
       $container->loadFromExtension('doctrine', [
         'dbal' => [
-          'override_url' => true,
           'driver' => 'pdo_sqlite',
           'url' => 'sqlite:///' . $this->getCacheDir() . '/app.db',
         ],
