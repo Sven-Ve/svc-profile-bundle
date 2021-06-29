@@ -35,3 +35,8 @@
 ## Version v1.4.0
 *Tue, 29 Jun 2021 11:26:37 +0000*
 - first public, open source version
+
+
+## Version v1.4.1
+*Tue, 29 Jun 2021 11:54:37 +0000*
+- added badges, deployed to Packagist

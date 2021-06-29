@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "v1.4.0";
-$message = "first public, open source version";
+$version = "v1.4.1";
+$message = "added badges, deployed to Packagist";
 
 file_put_contents("CHANGELOG.md", "\n\n## Version " . $version, FILE_APPEND);
 file_put_contents("CHANGELOG.md", "\n*" . date("r") . "*", FILE_APPEND);

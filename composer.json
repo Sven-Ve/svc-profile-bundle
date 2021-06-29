@@ -1,6 +1,6 @@
 {
   "name": "svc/profile-bundle",
-  "description": "Private package to handle profiles",
+  "description": "Package to handle profiles (change password, change mail)",
   "type": "symfony-bundle",
   "license": "MIT",
   "authors": [
