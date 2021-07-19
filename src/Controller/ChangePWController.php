@@ -9,6 +9,7 @@ use Svc\UtilBundle\Service\MailerHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -35,11 +36,10 @@ class ChangePWController extends AbstractController
    * Display and handle a form to start the process of changing the password
    *
    * @param Request $request
-   * @param CustomAuthenticator $customAuth
-   * @param UserPasswordEncoderInterface $passwordEncoder
+   * @param UserPasswordHasherInterface $passwordHasher
    * @return Response
    */
-  public function startForm(Request $request, CustomAuthenticator $customAuth, UserPasswordEncoderInterface $passwordEncoder): Response
+  public function startForm(Request $request, UserPasswordHasherInterface $passwordHasher): Response
   {
     $user = $this->getUser();
     if (!$user) {
@@ -55,10 +55,10 @@ class ChangePWController extends AbstractController
 
     if ($form->isSubmitted() && $form->isValid()) {
 
-      $credential = ['password' => $form->get('password')->getData()];
-      if ($customAuth->checkCredentials($credential, $user)) {
+      $oldPW =  $form->get('password')->getData();
+      if ($passwordHasher->isPasswordValid($user, $oldPW)) {
         $newPW = trim($form->get('plainPassword')->getData());
-        $user->setPassword($passwordEncoder->encodePassword($user, $newPW));
+        $user->setPassword($passwordHasher->hashPassword($user, $newPW));
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($user);

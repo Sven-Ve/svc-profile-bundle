@@ -40,3 +40,8 @@
 ## Version v1.4.1
 *Tue, 29 Jun 2021 11:54:37 +0000*
 - added badges, deployed to Packagist
+
+
+## Version v1.4.2
+*Mon, 19 Jul 2021 19:59:04 +0000*
+- moved to symfony 5.3 authentication system for password change
