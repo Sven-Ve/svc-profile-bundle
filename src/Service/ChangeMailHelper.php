@@ -3,7 +3,6 @@
 namespace Svc\ProfileBundle\Service;
 
 use App\Entity\User;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Svc\ProfileBundle\Entity\UserChanges;
 use Svc\ProfileBundle\Repository\UserChangesRepository;
@@ -42,7 +41,6 @@ class ChangeMailHelper
     UserChangesRepository $userChangeRep,
     EntityManagerInterface $entityManager,
     MailerHelper $mailerHelper,
-    UserRepository $userRep,
     Environment $twig,
     RouterInterface $router,
     TranslatorInterface $translator
@@ -50,7 +48,8 @@ class ChangeMailHelper
     $this->userChangeRep = $userChangeRep;
     $this->entityManager = $entityManager;
     $this->mailerHelper = $mailerHelper;
-    $this->userRep = $userRep;
+    /** @phpstan-ignore-next-line */
+    $this->userRep = $this->entityManager->getRepository(User::class);
     $this->twig = $twig;
     $this->router = $router;
     $this->translator = $translator;
@@ -61,6 +60,8 @@ class ChangeMailHelper
    *
    * @param User $user
    * @return boolean
+   * 
+   * @phpstan-ignore-next-line 
    */
   public function checkExpiredRequest(User $user): bool
   {
@@ -83,6 +84,8 @@ class ChangeMailHelper
    *
    * @param string $email email address to be checked
    * @return User|null
+   * 
+   * @phpstan-ignore-next-line 
    */
   public function checkMailExists(string $email): ?User
   {
@@ -95,6 +98,8 @@ class ChangeMailHelper
    * @param User $user
    * @param string $newMail
    * @return void
+   * 
+   * @phpstan-ignore-next-line 
    */
   public function writeUserChangeRecord(User $user, string $newMail): void
   {

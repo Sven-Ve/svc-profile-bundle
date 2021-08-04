@@ -83,37 +83,21 @@ class SvcProfileKernel extends Kernel
         ],
         'orm' => [
           'auto_generate_proxy_classes' => true,
-          'auto_mapping' => true,
-  //        'mappings' => [
-  //          'App' => [
-  //            'is_bundle' => false,
-  //            'type' => 'annotation',
-  //            'dir' => 'tests/Fixtures/Entity/',
-  //            'prefix' => 'SymfonyCasts\Bundle\ResetPassword\Tests\Fixtures\Entity',
-  //            'alias' => 'App',
-  //          ],
-  //        ],
+          'auto_mapping' => true
         ],
       ]);
+
+      $container->register(User::class)
+      ->setAutoconfigured(true)
+      ->setAutowired(true);
 
       $container->register(UserRepository::class)
       ->setAutoconfigured(true)
       ->setAutowired(true);
 
-      
       $container->register(CustomAuthenticator::class)
       ->setAutoconfigured(true)
       ->setAutowired(true);
-      
-
-      /*
-      $container->register(ResetPasswordTestFixtureRequestRepository::class)
-        ->setAutoconfigured(true)
-        ->setAutowired(true);
-      $container->loadFromExtension('symfonycasts_reset_password', [
-        'request_password_repository' => ResetPasswordTestFixtureRequestRepository::class,
-      ]);
-      */
 
       $container->register('kernel', static::class)->setPublic(true);
 

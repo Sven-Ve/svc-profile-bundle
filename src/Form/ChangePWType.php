@@ -36,8 +36,10 @@ class ChangePWType extends AbstractType
       ]);
 
     if ($options['enableCaptcha']) {
+      /** @phpstan-ignore-next-line */
       $builder->add('recaptcha', EWZRecaptchaV3Type::class, [
         "action_name" => "form",
+        /** @phpstan-ignore-next-line */
         'constraints' => array(new IsTrueV3())
       ]);
     }

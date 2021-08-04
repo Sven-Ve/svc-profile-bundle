@@ -36,13 +36,13 @@ class ChangeMailController extends AbstractController
    * @param CustomAuthenticator $customAuth
    * @return Response
    */
+  /** @phpstan-ignore-next-line */
   public function startForm(Request $request, CustomAuthenticator $customAuth): Response
   {
     $user = $this->getUser();
     if (!$user) {
       $this->addFlash("warning", $this->t("Please login before changing email address."));
       return ($this->redirectToRoute("app_login"));
-      exit;
     }
 
     $form = $this->createForm(ChangeMailType::class, null, ['enableCaptcha' => $this->enableCaptcha]);
@@ -57,13 +57,11 @@ class ChangeMailController extends AbstractController
           $this->t("You have to enter a new mail address. 'newMail' is your old one.", ['newMail' => $newMail])
         );
         return ($this->redirectToRoute("svc_profile_change_mail_start"));
-        exit;
       }
 
       if (!$this->helper->checkExpiredRequest($user)) {
         $this->addFlash("danger", $this->t("You requested already a mail change. Please check your mail to confirm it."));
         return ($this->redirectToRoute("svc_profile_change_mail_start"));
-        exit;
       }
 
       if ($this->helper->checkMailExists($newMail)) {
@@ -72,6 +70,8 @@ class ChangeMailController extends AbstractController
       }
 
       $credential = ['password' => $form->get('password')->getData()];
+
+      /** @phpstan-ignore-next-line */
       if ($customAuth->checkCredentials($credential, $user)) {
 
         $this->helper->writeUserChangeRecord($user, $newMail);
@@ -79,13 +79,11 @@ class ChangeMailController extends AbstractController
         if (!$this->helper->sendActivationMail($newMail)) {
           $this->addFlash("danger", "Cannot send mail to $newMail. Address exists?");
           return ($this->redirectToRoute("svc_profile_change_mail_start"));
-          exit;
         }
         return ($this->redirectToRoute("svc_profile_change_mail_sent1", ['newmail' => $newMail]));
       } else {
         $this->addFlash("danger", $this->t("Wrong password, please try again!"));
         return ($this->redirectToRoute("svc_profile_change_mail_start"));
-        exit;
       }
     }
 
@@ -120,7 +118,6 @@ class ChangeMailController extends AbstractController
     if (!$this->helper->activateNewMail($token)) {
       $this->addFlash("danger", $this->t("Request is expired or not found. Please start again"));
       return ($this->redirectToRoute("svc_profile_change_mail_start"));
-      exit;
     }
 
     $this->addFlash("success", $this->t("Your new mail is activated. Please re-login."));

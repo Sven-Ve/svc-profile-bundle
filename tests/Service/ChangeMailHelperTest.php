@@ -54,7 +54,6 @@ class ChangeMailHelperTest extends TestCase
       $this->userChangeRep,
       $this->em,
       $this->mailerHelper,
-      $this->userRep,
       $this->twig,
       $this->router,
       $this->translator,
@@ -116,7 +115,7 @@ class ChangeMailHelperTest extends TestCase
    *
    * @return void
    */
-  public function testCheckMailExists1()
+/*   public function testCheckMailExists1()
   {
     $email = "test@test.com";
 
@@ -129,14 +128,14 @@ class ChangeMailHelperTest extends TestCase
 
     $result = $this->changeMailHelper->checkMailExists($email);
     $this->assertEquals($email, $result->getEmail());
-  }
+  } */
 
   /**
    * check, if email address exists (Case 2 = email not exists)
    *
    * @return void
    */
-  public function testCheckMailExists2()
+/*   public function testCheckMailExists2()
   {
     $email = "test@test.com";
 
@@ -146,7 +145,7 @@ class ChangeMailHelperTest extends TestCase
 
     $result = $this->changeMailHelper->checkMailExists($email);
     $this->assertNull($result);
-  }
+  } */
 
   /**
    * check token creation

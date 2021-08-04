@@ -45,7 +45,6 @@ class ChangePWController extends AbstractController
     if (!$user) {
       $this->addFlash("warning", $this->t("Please login before changing password."));
       return ($this->redirectToRoute("app_login"));
-      exit;
     }
 
     $form = $this->createForm(ChangePWType::class, null, ['enableCaptcha' => $this->enableCaptcha]);
@@ -73,7 +72,6 @@ class ChangePWController extends AbstractController
       } else {
         $this->addFlash("danger", $this->t("Wrong password, please try again!"));
         return ($this->redirectToRoute("svc_profile_change_pw_start"));
-        exit;
       }
     }
 

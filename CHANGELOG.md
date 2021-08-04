@@ -45,3 +45,8 @@
 ## Version v1.4.2
 *Mon, 19 Jul 2021 19:59:04 +0000*
 - moved to symfony 5.3 authentication system for password change
+
+
+## Version v1.4.3
+*Wed, 04 Aug 2021 15:06:43 +0000*
+- added static code analysis (phpstan)

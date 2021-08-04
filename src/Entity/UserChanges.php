@@ -53,11 +53,13 @@ class UserChanges
     return $this->id;
   }
 
+  /** @phpstan-ignore-next-line */
   public function getUser(): ?User
   {
     return $this->user;
   }
 
+  /** @phpstan-ignore-next-line */
   public function setUser(User $user): self
   {
     $this->user = $user;

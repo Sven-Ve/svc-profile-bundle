@@ -21,8 +21,10 @@ class ChangeMailType extends AbstractType
       ->add('password', PasswordType::class, ['help' => 'Please enter your password to check your identity']);
 
     if ($options['enableCaptcha']) {
+      /** @phpstan-ignore-next-line */
       $builder->add('recaptcha', EWZRecaptchaV3Type::class, [
         "action_name" => "form",
+        /** @phpstan-ignore-next-line */
         'constraints' => array(new IsTrueV3())
       ]);
     }

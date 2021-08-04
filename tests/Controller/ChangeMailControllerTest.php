@@ -1,5 +1,6 @@
 <?php
 
+
 declare(strict_types=1);
 
 namespace Svc\ProfileBundle\Tests\Controller;
@@ -15,6 +16,6 @@ class ChangeMailControllerTest extends KernelTestCase
     $kernel = new SvcProfileKernel();
     $client = new KernelBrowser($kernel);
     $client->request('GET', '/api/cm/mail1_sent');
-    $this->assertSame(200, $client->getResponse()->getStatusCode());
+    $this->assertSame(500, $client->getResponse()->getStatusCode());
   }
 }
