@@ -65,7 +65,7 @@ class ChangeMailHelper
    */
   public function checkExpiredRequest(User $user): bool
   {
-    $entry = $this->userChangeRep->findOneBy(["user" => $user, "changeType" => static::TYPCHANGEMAIL]);
+    $entry = $this->userChangeRep->findOneBy(["user" => $user, "changeType" => self::TYPCHANGEMAIL]);
     if (!$entry) {
       return true;
     }
@@ -105,8 +105,8 @@ class ChangeMailHelper
   {
     $change = new UserChanges();
     $change->setUser($user);
-    $change->setChangeType(static::TYPCHANGEMAIL);
-    $change->setExpiresAt(new \DateTimeImmutable(\sprintf('+%d seconds', static::TOKENLIFETIME)));
+    $change->setChangeType(self::TYPCHANGEMAIL);
+    $change->setExpiresAt(new \DateTimeImmutable(\sprintf('+%d seconds', self::TOKENLIFETIME)));
     $change->setNewMail($newMail);
 
     $token = $this->getToken();
@@ -208,7 +208,7 @@ class ChangeMailHelper
    */
   public function getTokenHash($token): string
   {
-    $secretKey = $_ENV['SVC_PROFILE_HASH_SECRET'] ?? static::SECRETKEY;
+    $secretKey = $_ENV['SVC_PROFILE_HASH_SECRET'] ?? self::SECRETKEY;
     return hash_hmac('sha256', $token, $secretKey);  // sha256 = 64 chars
   }
 }

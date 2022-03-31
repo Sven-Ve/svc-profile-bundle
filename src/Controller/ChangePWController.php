@@ -59,7 +59,9 @@ class ChangePWController extends AbstractController
         $newPW = trim($form->get('plainPassword')->getData());
         $user->setPassword($passwordHasher->hashPassword($user, $newPW));
 
-        $entityManager = $this->getDoctrine()->getManager();
+//        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $this->getManager();
+
         $entityManager->persist($user);
         $entityManager->flush();
         if ($this->sendPasswordChangedMail($user->getEmail())) {
