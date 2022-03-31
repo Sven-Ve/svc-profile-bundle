@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "v1.4.3";
-$message = "added static code analysis (phpstan)";
+$version = "v1.5.0";
+$message = "ready for symfony 5.4 and SvcUtilBundle >2.x";
 
 file_put_contents("CHANGELOG.md", "\n\n## Version " . $version, FILE_APPEND);
 file_put_contents("CHANGELOG.md", "\n*" . date("r") . "*", FILE_APPEND);

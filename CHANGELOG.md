@@ -50,3 +50,8 @@
 ## Version v1.4.3
 *Wed, 04 Aug 2021 15:06:43 +0000*
 - added static code analysis (phpstan)
+
+
+## Version v1.5.0
+*Thu, 31 Mar 2022 20:50:36 +0000*
+- ready for symfony 5.4 and SvcUtilBundle >2.x
