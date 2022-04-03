@@ -3,6 +3,7 @@
 namespace Svc\ProfileBundle\Controller;
 
 use App\Security\CustomAuthenticator;
+use Doctrine\Persistence\ManagerRegistry;
 use Svc\ProfileBundle\Form\ChangePWType;
 use Svc\UtilBundle\Service\EnvInfoHelper;
 use Svc\UtilBundle\Service\MailerHelper;
@@ -39,7 +40,7 @@ class ChangePWController extends AbstractController
    * @param UserPasswordHasherInterface $passwordHasher
    * @return Response
    */
-  public function startForm(Request $request, UserPasswordHasherInterface $passwordHasher): Response
+  public function startForm(Request $request, UserPasswordHasherInterface $passwordHasher, ManagerRegistry $doctrine): Response
   {
     $user = $this->getUser();
     if (!$user) {
@@ -59,8 +60,7 @@ class ChangePWController extends AbstractController
         $newPW = trim($form->get('plainPassword')->getData());
         $user->setPassword($passwordHasher->hashPassword($user, $newPW));
 
-//        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager = $this->getManager();
+        $entityManager = $doctrine()->getManager();
 
         $entityManager->persist($user);
         $entityManager->flush();
