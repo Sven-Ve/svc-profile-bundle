@@ -2,12 +2,12 @@
 
 namespace Svc\ProfileBundle\Controller;
 
-use App\Security\CustomAuthenticator;
 use Svc\ProfileBundle\Form\ChangeMailType;
 use Svc\ProfileBundle\Service\ChangeMailHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -33,11 +33,10 @@ class ChangeMailController extends AbstractController
    * Display and handle a form to start the process of changing the mail address
    *
    * @param Request $request
-   * @param CustomAuthenticator $customAuth
+   * @param UserPasswordHasherInterface $passwordHasher
    * @return Response
    */
-  /** @phpstan-ignore-next-line */
-  public function startForm(Request $request, CustomAuthenticator $customAuth): Response
+  public function startForm(Request $request, UserPasswordHasherInterface $passwordHasher): Response
   {
     $user = $this->getUser();
     if (!$user) {
@@ -51,7 +50,7 @@ class ChangeMailController extends AbstractController
 
 
     if ($form->isSubmitted() && $form->isValid()) {
-      if (strtolower($user->getEmail()) == strtolower($newMail)) {
+      if (strtolower($user->getEmail()) == strtolower($newMail)) { /** @phpstan-ignore-line */
         $this->addFlash(
           "danger",
           $this->t("You have to enter a new mail address. 'newMail' is your old one.", ['newMail' => $newMail])
@@ -69,10 +68,10 @@ class ChangeMailController extends AbstractController
         return ($this->redirectToRoute("svc_profile_change_mail_start"));
       }
 
-      $credential = ['password' => $form->get('password')->getData()];
+      $credential = $form->get('password')->getData();
 
       /** @phpstan-ignore-next-line */
-      if ($customAuth->checkCredentials($credential, $user)) {
+      if ($passwordHasher->isPasswordValid($user, $credential)) {
 
         $this->helper->writeUserChangeRecord($user, $newMail);
 

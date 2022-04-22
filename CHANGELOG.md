@@ -55,3 +55,8 @@
 ## Version v1.5.0
 *Thu, 31 Mar 2022 20:50:36 +0000*
 - ready for symfony 5.4 and SvcUtilBundle >2.x
+
+
+## Version v1.5.1
+*Fri, 22 Apr 2022 20:11:18 +0000*
+- fixes for symfony 5.4

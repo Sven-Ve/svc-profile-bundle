@@ -2,7 +2,7 @@
 
 namespace Svc\ProfileBundle\Controller;
 
-use App\Security\CustomAuthenticator;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Svc\ProfileBundle\Form\ChangePWType;
 use Svc\UtilBundle\Service\EnvInfoHelper;
@@ -11,7 +11,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -40,7 +39,7 @@ class ChangePWController extends AbstractController
    * @param UserPasswordHasherInterface $passwordHasher
    * @return Response
    */
-  public function startForm(Request $request, UserPasswordHasherInterface $passwordHasher, ManagerRegistry $doctrine): Response
+  public function startForm(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager): Response
   {
     $user = $this->getUser();
     if (!$user) {
@@ -56,18 +55,16 @@ class ChangePWController extends AbstractController
     if ($form->isSubmitted() && $form->isValid()) {
 
       $oldPW =  $form->get('password')->getData();
-      if ($passwordHasher->isPasswordValid($user, $oldPW)) {
+      if ($passwordHasher->isPasswordValid($user, $oldPW)) { /** @phpstan-ignore-line */
         $newPW = trim($form->get('plainPassword')->getData());
-        $user->setPassword($passwordHasher->hashPassword($user, $newPW));
-
-        $entityManager = $doctrine()->getManager();
+        $user->setPassword($passwordHasher->hashPassword($user, $newPW)); /** @phpstan-ignore-line */
 
         $entityManager->persist($user);
         $entityManager->flush();
-        if ($this->sendPasswordChangedMail($user->getEmail())) {
+        if ($this->sendPasswordChangedMail($user->getEmail())) { /** @phpstan-ignore-line */
           $this->addFlash("success", $this->t("Password changed, please login"));
         } else {
-          $this->addFlash("warning", $this->t("Password changed, please login") . ". But cannot send info mail to " . $user->getEmail());
+          $this->addFlash("warning", $this->t("Password changed, please login") . ". But cannot send info mail to " . $user->getEmail()); /** @phpstan-ignore-line */
         }
 
         return ($this->redirectToRoute("app_login"));
