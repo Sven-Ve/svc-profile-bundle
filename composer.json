@@ -12,15 +12,15 @@
   "require": {
     "php": "^7.3.0 | ^8",
     "svc/util-bundle": "^1|^2|dev-main",
-    "symfony/framework-bundle": "^5.4",
+    "symfony/framework-bundle": "^5.4|^6",
     "doctrine/annotations": "^1.11",
     "doctrine/doctrine-bundle": "^2.2",
     "doctrine/orm": "^2.8",
-    "symfony/validator": "5.4.*|6.0.*",
-    "symfony/translation": "5.4.*|6.0.*",
-    "symfony/twig-bundle": "^4.3|^5|6.0.*",
-    "symfony/security-bundle": "5.4.*|6.0.*",
-    "symfony/form": "5.4.*|6.0.*"
+    "symfony/validator": "5.4.*|^6",
+    "symfony/translation": "5.4.*|^6",
+    "symfony/twig-bundle": "^4.3|^5|^6",
+    "symfony/security-bundle": "5.4.*|^6",
+    "symfony/form": "5.4.*|^6"
   },
   "autoload": {
     "psr-4": {
@@ -33,10 +33,9 @@
     }
   },
   "require-dev": {
-    "symfony/phpunit-bridge": "5.4.*|6.0.*",
-    "symfony/browser-kit": "5.4.*|6.0.*",
-    "phpstan/phpstan": "^1",
-    "rector/rector": "^0.12"
+    "symfony/phpunit-bridge": "5.4.*|^6",
+    "symfony/browser-kit": "5.4.*|^6",
+    "phpstan/phpstan": "^1"
 },
   "scripts": {
       "test": "vendor/bin/simple-phpunit",

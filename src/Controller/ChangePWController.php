@@ -3,7 +3,6 @@
 namespace Svc\ProfileBundle\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Persistence\ManagerRegistry;
 use Svc\ProfileBundle\Form\ChangePWType;
 use Svc\UtilBundle\Service\EnvInfoHelper;
 use Svc\UtilBundle\Service\MailerHelper;
