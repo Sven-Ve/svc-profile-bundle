@@ -1,8 +1,15 @@
 #!/usr/bin/env php
 <?php
 
-$version = "v1.6.1";
+$version = "3.0.0";
 $message = "compatible with symfony 6.0 (fix)";
+
+echo("Running phpstan:\n");
+system("composer run-script phpstan", $res);
+if ($res>0) {
+  echo("\nError during execution phpstan. Releasing cannceled.\n");
+  return 1;
+}
 
 file_put_contents("CHANGELOG.md", "\n\n## Version " . $version, FILE_APPEND);
 file_put_contents("CHANGELOG.md", "\n*" . date("r") . "*", FILE_APPEND);

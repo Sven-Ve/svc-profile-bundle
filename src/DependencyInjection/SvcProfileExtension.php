@@ -40,7 +40,7 @@ class SvcProfileExtension extends Extension
       try {
         file_put_contents($fileName, $text);
         dump("Please adapt config file $fileName");
-      } catch (Exception $e) {
+      } catch (Exception) {
         // ignore...
       }
     }
@@ -53,7 +53,7 @@ class SvcProfileExtension extends Extension
       try {
         file_put_contents($fileName, $text);
         dump("Please adapt config file $fileName");
-      } catch (Exception $e) {
+      } catch (Exception) {
         // ignore...
       }
     }

@@ -18,15 +18,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class ChangeMailController extends AbstractController
 {
 
-  private $helper;
-  private $enableCaptcha;
-  private $translator;
-
-  public function __construct(ChangeMailHelper $helper, bool $enableCaptcha, TranslatorInterface $translator)
+  public function __construct(private ChangeMailHelper $helper, private bool $enableCaptcha, private TranslatorInterface $translator)
   {
-    $this->helper = $helper;
-    $this->enableCaptcha = $enableCaptcha;
-    $this->translator = $translator;
   }
 
   /**
@@ -58,7 +51,7 @@ class ChangeMailController extends AbstractController
         return ($this->redirectToRoute("svc_profile_change_mail_start"));
       }
 
-      if (!$this->helper->checkExpiredRequest($user)) {
+      if (!$this->helper->checkExpiredRequest($user)) {  /** @phpstan-ignore-line */
         $this->addFlash("danger", $this->t("You requested already a mail change. Please check your mail to confirm it."));
         return ($this->redirectToRoute("svc_profile_change_mail_start"));
       }
@@ -73,7 +66,7 @@ class ChangeMailController extends AbstractController
       /** @phpstan-ignore-next-line */
       if ($passwordHasher->isPasswordValid($user, $credential)) {
 
-        $this->helper->writeUserChangeRecord($user, $newMail);
+        $this->helper->writeUserChangeRecord($user, $newMail);  /** @phpstan-ignore-line */
 
         if (!$this->helper->sendActivationMail($newMail)) {
           $this->addFlash("danger", "Cannot send mail to $newMail. Address exists?");
@@ -125,10 +118,6 @@ class ChangeMailController extends AbstractController
 
   /**
    * private function to translate content in namespace 'ProfileBundle'
-   *
-   * @param string $text
-   * @param array $placeholder
-   * @return string
    */
   private function t(string $text, array $placeholder = []): string
   {

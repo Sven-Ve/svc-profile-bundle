@@ -20,15 +20,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class ChangePWController extends AbstractController
 {
 
-  private $mailerHelper;
-  private $enableCaptcha;
-  private $translator;
-
-  public function __construct(MailerHelper $mailerHelper, $enableCaptcha, TranslatorInterface $translator)
+  public function __construct(private MailerHelper $mailerHelper, private $enableCaptcha, private TranslatorInterface $translator)
   {
-    $this->mailerHelper = $mailerHelper;
-    $this->enableCaptcha = $enableCaptcha;
-    $this->translator = $translator;
   }
 
   /**
@@ -80,7 +73,6 @@ class ChangePWController extends AbstractController
    * send a mail with info anout password change
    *
    * @param string $mail email address to send
-   * @return bool
    */
   public function sendPasswordChangedMail(string $mail): bool
   {
@@ -92,9 +84,6 @@ class ChangePWController extends AbstractController
 
   /**
    * private function to translate content in namespace 'ProfileBundle'
-   *
-   * @param string $text
-   * @return string
    */
   private function t(string $text): string
   {

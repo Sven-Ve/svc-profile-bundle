@@ -26,41 +26,27 @@ class ChangeMailHelper
   # generated with https://passwordsgenerator.net/sha256-hash-generator/
   private const SECRETKEY = "23573BE852F6D1C73B314809E940F19F3D00EF1CD99147462861BB714E68DCC1";
   private const TYPCHANGEMAIL = 1;
-
-  private $userChangeRep;
   private $userRep;
-  private $entityManager;
-  private $mailerHelper;
   private $token;
-  private $twig;
-  private $router;
-  private $translator;
 
 
   public function __construct(
-    UserChangesRepository $userChangeRep,
-    EntityManagerInterface $entityManager,
-    MailerHelper $mailerHelper,
-    Environment $twig,
-    RouterInterface $router,
-    TranslatorInterface $translator
+    private UserChangesRepository $userChangeRep,
+    private EntityManagerInterface $entityManager,
+    private MailerHelper $mailerHelper,
+    private Environment $twig,
+    private RouterInterface $router,
+    private TranslatorInterface $translator
   ) {
-    $this->userChangeRep = $userChangeRep;
-    $this->entityManager = $entityManager;
-    $this->mailerHelper = $mailerHelper;
     /** @phpstan-ignore-next-line */
     $this->userRep = $this->entityManager->getRepository(User::class);
-    $this->twig = $twig;
-    $this->router = $router;
-    $this->translator = $translator;
   }
 
   /**
    * check if a request exists and if it expired
    *
    * @param User $user
-   * @return boolean
-   * 
+   *
    * @phpstan-ignore-next-line 
    */
   public function checkExpiredRequest(User $user): bool
@@ -96,9 +82,7 @@ class ChangeMailHelper
    * write the change record in table userChanges
    *
    * @param User $user
-   * @param string $newMail
-   * @return void
-   * 
+   *
    * @phpstan-ignore-next-line 
    */
   public function writeUserChangeRecord(User $user, string $newMail): void
@@ -135,8 +119,6 @@ class ChangeMailHelper
   /**
    * send a mail to the old address to inform about the mail change.
    *
-   * @param string $oldMail
-   * @param string $newMail
    * @return boolean if mail sent
    */
   public function sendActivationDoneMail(string $oldMail, string $newMail): bool
@@ -156,9 +138,6 @@ class ChangeMailHelper
 
   /**
    * activate new mail adress (write in Users table and delete from UserChanges table)
-   *
-   * @param string $token
-   * @return boolean
    */
   public function activateNewMail(string $token): bool
   {
@@ -173,12 +152,12 @@ class ChangeMailHelper
     }
 
     $user = $entry->getUser();
-    $oldMail = $user->getEmail();
+    $oldMail = $user->getEmail();  /** @phpstan-ignore-line */
     $newMail = $entry->getNewMail();
 
     $this->sendActivationDoneMail($oldMail, $newMail);
 
-    $user->setEmail($newMail);
+    $user->setEmail($newMail);  /** @phpstan-ignore-line */
 
     $this->entityManager->persist($user);
     $this->entityManager->flush();
@@ -190,8 +169,6 @@ class ChangeMailHelper
 
   /**
    * create a token
-   *
-   * @return string
    */
   public function getToken(): string
   {

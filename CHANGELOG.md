@@ -70,3 +70,8 @@
 ## Version v1.6.1
 *Wed, 27 Apr 2022 16:21:18 +0000*
 - compatible with symfony 6.0 (fix)
+
+
+## Version 3.0.0
+*Sat, 30 Apr 2022 20:29:08 +0000*
+- compatible with symfony 6.0 (fix)
