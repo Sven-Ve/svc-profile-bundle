@@ -2,6 +2,8 @@
 
 namespace Svc\ProfileBundle\Form;
 
+use EWZ\Bundle\RecaptchaBundle\Form\Type\EWZRecaptchaV3Type;
+use EWZ\Bundle\RecaptchaBundle\Validator\Constraints\IsTrueV3;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -9,8 +11,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use EWZ\Bundle\RecaptchaBundle\Form\Type\EWZRecaptchaV3Type;
-use EWZ\Bundle\RecaptchaBundle\Validator\Constraints\IsTrueV3;
 
 class ChangePWType extends AbstractType
 {
@@ -19,10 +19,10 @@ class ChangePWType extends AbstractType
     $builder
       ->add('password', PasswordType::class, [
         'help' => 'Please enter your old password to check your identity',
-        "attr" => ["autofocus" => true]
+        'attr' => ['autofocus' => true],
       ])
       ->add('plainPassword', PasswordType::class, [
-        'label' => "New password",
+        'label' => 'New password',
         'help' => 'Please enter a new password',
         'mapped' => false,
         'constraints' => [
@@ -36,11 +36,11 @@ class ChangePWType extends AbstractType
       ]);
 
     if ($options['enableCaptcha']) {
-      /** @phpstan-ignore-next-line */
+      /* @phpstan-ignore-next-line */
       $builder->add('recaptcha', EWZRecaptchaV3Type::class, [
-        "action_name" => "form",
-        /** @phpstan-ignore-next-line */
-        'constraints' => array(new IsTrueV3())
+        'action_name' => 'form',
+        /* @phpstan-ignore-next-line */
+        'constraints' => [new IsTrueV3()],
       ]);
     }
 
@@ -52,7 +52,7 @@ class ChangePWType extends AbstractType
   {
     $resolver->setDefaults([
       'enableCaptcha' => null,
-      'translation_domain' => 'ProfileBundle'
+      'translation_domain' => 'ProfileBundle',
     ]);
   }
 }

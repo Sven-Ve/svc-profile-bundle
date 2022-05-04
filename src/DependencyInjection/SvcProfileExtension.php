@@ -12,7 +12,7 @@ class SvcProfileExtension extends Extension
 {
   public function load(array $configs, ContainerBuilder $container)
   {
-    $rootPath = $container->getParameter("kernel.project_dir");
+    $rootPath = $container->getParameter('kernel.project_dir');
     $this->createConfigIfNotExists($rootPath);
 
     $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
@@ -31,7 +31,7 @@ class SvcProfileExtension extends Extension
 
   private function createConfigIfNotExists($rootPath)
   {
-    $fileName = $rootPath . "/config/routes/svc_profile.yaml";
+    $fileName = $rootPath . '/config/routes/svc_profile.yaml';
     if (!file_exists($fileName)) {
       $text = "_svc_profile:\n";
       $text .= "    resource: '@SvcProfileBundle/src/Resources/config/routes.xml'\n";
@@ -45,7 +45,7 @@ class SvcProfileExtension extends Extension
       }
     }
 
-    $fileName = $rootPath . "/config/packages/svc_profile.yaml";
+    $fileName = $rootPath . '/config/packages/svc_profile.yaml';
     if (!file_exists($fileName)) {
       $text = "svc_profile:\n";
       $text .= "    # Enable captcha for change email/password forms?\n";

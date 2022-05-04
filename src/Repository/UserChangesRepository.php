@@ -3,8 +3,8 @@
 namespace Svc\ProfileBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Svc\ProfileBundle\Entity\UserChanges;
 use Doctrine\Persistence\ManagerRegistry;
+use Svc\ProfileBundle\Entity\UserChanges;
 
 /**
  * @method UserChanges|null find($id, $lockMode = null, $lockVersion = null)

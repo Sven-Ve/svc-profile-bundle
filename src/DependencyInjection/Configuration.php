@@ -16,6 +16,7 @@ class Configuration implements ConfigurationInterface
       ->children()
       ->booleanNode('enableCaptcha')->defaultFalse()->info('Enable captcha for change email/password forms?')->end()
       ->end();
+
     return $treeBuilder;
   }
 }
