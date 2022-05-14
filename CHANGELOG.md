@@ -95,3 +95,8 @@
 ## Version 3.0.4
 *Sat, 14 May 2022 20:42:55 +0000*
 - fix phpstan error
+
+
+## Version 3.0.5
+*Sat, 14 May 2022 20:59:59 +0000*
+- fix php deprecation

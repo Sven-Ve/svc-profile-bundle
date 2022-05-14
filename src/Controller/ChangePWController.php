@@ -61,7 +61,7 @@ class ChangePWController extends AbstractController
       }
     }
 
-    return $this->render('@SvcProfile/profile/changePW/start.html.twig', ['form' => $form->createView()]);
+    return $this->renderForm('@SvcProfile/profile/changePW/start.html.twig', ['form' => $form]);
   }
 
   /**

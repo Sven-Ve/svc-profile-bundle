@@ -35,9 +35,9 @@ class ChangeMailController extends AbstractController
 
     $form = $this->createForm(ChangeMailType::class, null, ['enableCaptcha' => $this->enableCaptcha]);
     $form->handleRequest($request);
-    $newMail = trim($form->get('email')->getData());
 
     if ($form->isSubmitted() && $form->isValid()) {
+      $newMail = trim($form->get('email')->getData());
       if (strtolower($user->getEmail()) == strtolower($newMail)) { /* @phpstan-ignore-line */
         $this->addFlash(
           'danger',
@@ -79,8 +79,8 @@ class ChangeMailController extends AbstractController
       }
     }
 
-    return $this->render('@SvcProfile/profile/changeMail/start.html.twig', [
-      'form' => $form->createView(),
+    return $this->renderForm('@SvcProfile/profile/changeMail/start.html.twig', [
+      'form' => $form,
     ]);
   }
 
