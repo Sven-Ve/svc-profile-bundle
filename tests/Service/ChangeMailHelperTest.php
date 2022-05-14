@@ -80,7 +80,7 @@ class ChangeMailHelperTest extends TestCase
     $user = new User();
 
     $userChange = new UserChanges();
-    $userChange->setExpiresAt(new \DateTime(\sprintf('+%d seconds', 100)));
+    $userChange->setExpiresAt(new \DateTimeImmutable(\sprintf('+%d seconds', 100)));
 
     $this->userChangeRep
       ->method('findOneBy')
@@ -100,7 +100,7 @@ class ChangeMailHelperTest extends TestCase
     $user = new User();
 
     $userChange = new UserChanges();
-    $userChange->setExpiresAt(new \DateTime(\sprintf('+%d seconds', -100)));
+    $userChange->setExpiresAt(new \DateTimeImmutable(\sprintf('+%d seconds', -100)));
 
     $this->userChangeRep
       ->method('findOneBy')

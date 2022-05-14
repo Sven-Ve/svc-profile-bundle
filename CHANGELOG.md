@@ -85,3 +85,8 @@
 ## Version 3.0.2
 *Sat, 14 May 2022 20:19:04 +0000*
 - fix test script
+
+
+## Version 3.0.3
+*Sat, 14 May 2022 20:29:12 +0000*
+- fix inconsistent type for expireAt (new DateTimeImmutable)

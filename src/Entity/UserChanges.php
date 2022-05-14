@@ -24,7 +24,7 @@ class UserChanges
   private ?int $changeType = null;
 
   #[ORM\Column()]
-  private ?\DateTime $expiresAt = null;
+  private ?\DateTimeImmutable $expiresAt = null;
 
   #[ORM\Column(length: 100, nullable: true)]
   private ?string $newMail = null;
@@ -75,12 +75,12 @@ class UserChanges
     return $this;
   }
 
-  public function getExpiresAt(): ?\DateTimeInterface
+  public function getExpiresAt(): ?\DateTimeImmutable
   {
     return $this->expiresAt;
   }
 
-  public function setExpiresAt(\DateTimeInterface $expiresAt): self
+  public function setExpiresAt(\DateTimeImmutable $expiresAt): self
   {
     $this->expiresAt = $expiresAt;
 

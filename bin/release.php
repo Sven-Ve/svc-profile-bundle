@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "3.0.2";
-$message = "fix test script";
+$version = "3.0.3";
+$message = "fix inconsistent type for expireAt (new DateTimeImmutable)";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);
