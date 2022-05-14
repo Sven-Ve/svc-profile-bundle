@@ -14,24 +14,23 @@ class UserChanges
 {
   #[ORM\Id]
   #[ORM\GeneratedValue]
-  #[ORM\Column(type: 'integer')]
-  private $id;
+  #[ORM\Column()]
+  private ?int $id = null;
 
-  #[ORM\OneToOne(targetEntity: User::class)] /** @phpstan-ignore-line */
+  #[ORM\OneToOne()]
   #[ORM\JoinColumn(nullable: false)]
-  private $user;
-
+  private ?User $user = null; /** @phpstan-ignore-line */
   #[ORM\Column(type: 'smallint')]
-  private $changeType;
+  private ?int $changeType = null;
 
-  #[ORM\Column(type: 'datetime')]
-  private $expiresAt;
+  #[ORM\Column()]
+  private ?\DateTime $expiresAt = null;
 
-  #[ORM\Column(type: 'string', length: 100, nullable: true)]
-  private $newMail;
+  #[ORM\Column(length: 100, nullable: true)]
+  private ?string $newMail = null;
 
-  #[ORM\Column(type: 'string', length: 100, nullable: true, unique: true)]
-  private $hashedToken;
+  #[ORM\Column(length: 100, nullable: true, unique: true)]
+  private ?string $hashedToken = null;
 
   public function getId(): ?int
   {

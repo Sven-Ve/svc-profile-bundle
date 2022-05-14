@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "3.0.0";
-$message = "compatible with symfony 6.0 (fix)";
+$version = "3.0.1";
+$message = "added php attribute types";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);

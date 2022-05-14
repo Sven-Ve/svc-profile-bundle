@@ -75,3 +75,8 @@
 ## Version 3.0.0
 *Sat, 30 Apr 2022 20:29:08 +0000*
 - compatible with symfony 6.0 (fix)
+
+
+## Version 3.0.1
+*Sat, 14 May 2022 16:44:09 +0000*
+- added php attribute types

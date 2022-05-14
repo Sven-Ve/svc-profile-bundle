@@ -25,7 +25,9 @@ class ChangeMailHelper
   // generated with https://passwordsgenerator.net/sha256-hash-generator/
   private const SECRETKEY = '23573BE852F6D1C73B314809E940F19F3D00EF1CD99147462861BB714E68DCC1';
   private const TYPCHANGEMAIL = 1;
+
   private $userRep;
+
   private $token;
 
   public function __construct(
