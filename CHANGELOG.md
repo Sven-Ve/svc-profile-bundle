@@ -90,3 +90,8 @@
 ## Version 3.0.3
 *Sat, 14 May 2022 20:29:12 +0000*
 - fix inconsistent type for expireAt (new DateTimeImmutable)
+
+
+## Version 3.0.4
+*Sat, 14 May 2022 20:42:55 +0000*
+- fix phpstan error

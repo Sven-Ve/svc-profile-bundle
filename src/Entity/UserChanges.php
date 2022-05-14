@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Svc\ProfileBundle\Repository\UserChangesRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-#[ORM\Entity(repositoryClass: UserChangesRepository::class)] /** @phpstan-ignore-line */
+#[ORM\Entity(repositoryClass: UserChangesRepository::class)]
 #[UniqueEntity(fields: ['hashedToken'], message: 'There is already an token')]
 #[UniqueEntity(fields: ['id', 'changeType'], message: 'There is already an request for this user')]
 class UserChanges
@@ -20,6 +20,7 @@ class UserChanges
   #[ORM\OneToOne()]
   #[ORM\JoinColumn(nullable: false)]
   private ?User $user = null; /** @phpstan-ignore-line */
+
   #[ORM\Column(type: 'smallint')]
   private ?int $changeType = null;
 
