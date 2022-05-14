@@ -80,3 +80,8 @@
 ## Version 3.0.1
 *Sat, 14 May 2022 16:44:09 +0000*
 - added php attribute types
+
+
+## Version 3.0.2
+*Sat, 14 May 2022 20:19:04 +0000*
+- fix test script
