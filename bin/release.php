@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "3.0.5";
-$message = "fix php deprecation";
+$version = "3.0.6";
+$message = "doctrine/annotations dependency deleted";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);

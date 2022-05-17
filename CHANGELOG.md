@@ -100,3 +100,8 @@
 ## Version 3.0.5
 *Sat, 14 May 2022 20:59:59 +0000*
 - fix php deprecation
+
+
+## Version 3.0.6
+*Tue, 17 May 2022 20:20:09 +0000*
+- doctrine/annotations dependency deleted
