@@ -30,7 +30,7 @@ class UserChanges
   #[ORM\Column(length: 100, nullable: true)]
   private ?string $newMail = null;
 
-  #[ORM\Column(length: 100, nullable: true, unique: true)]
+  #[ORM\Column(length: 100, unique: true, nullable: true)]
   private ?string $hashedToken = null;
 
   public function getId(): ?int
