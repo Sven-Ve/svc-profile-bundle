@@ -17,7 +17,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class ChangeMailController extends AbstractController
 {
-  public function __construct(private ChangeMailHelper $helper, private bool $enableCaptcha, private TranslatorInterface $translator)
+  public function __construct(private bool $enableCaptcha, private ChangeMailHelper $helper, private TranslatorInterface $translator)
   {
   }
 

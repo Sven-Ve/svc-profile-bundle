@@ -182,7 +182,7 @@ class ChangeMailHelper
    *
    * @return string The hashed value
    */
-  public function getTokenHash($token): string
+  public function getTokenHash(string $token): string
   {
     $secretKey = $_ENV['SVC_PROFILE_HASH_SECRET'] ?? self::SECRETKEY;
 

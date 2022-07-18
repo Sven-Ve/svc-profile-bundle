@@ -75,7 +75,7 @@ class SvcProfileKernel extends Kernel
           ],
         ]
       );
-      
+
       $container->loadFromExtension('doctrine', [
         'dbal' => [
           'driver' => 'pdo_sqlite',
@@ -114,7 +114,7 @@ class SvcProfileKernel extends Kernel
    */
   protected function configureRoutes(RoutingConfigurator $routes)
   {
-    $routes->import(__DIR__.'/../src/Resources/config/routes.xml')->prefix('/api');
+    $routes->import(__DIR__.'/../config/routes.yaml')->prefix('/profile/');
   }
 
   protected function configureContainer(ContainerBuilder $c, LoaderInterface $loader)

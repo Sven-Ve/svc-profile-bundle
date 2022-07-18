@@ -65,7 +65,7 @@ class ChangeMailHelperTest extends TestCase
    *
    * @return void
    */
-  public function testClassLoad()
+  public function testClassLoad(): void
   {
     $this->assertInstanceOf(ChangeMailHelper::class, $this->changeMailHelper);
   }
@@ -75,7 +75,7 @@ class ChangeMailHelperTest extends TestCase
    *
    * @return void
    */
-  public function testCheckExpiredRequest1()
+  public function testCheckExpiredRequest1(): void
   {
     $user = new User();
 
@@ -95,7 +95,7 @@ class ChangeMailHelperTest extends TestCase
    *
    * @return void
    */
-  public function testCheckExpiredRequest2()
+  public function testCheckExpiredRequest2(): void
   {
     $user = new User();
 
@@ -168,8 +168,9 @@ class ChangeMailHelperTest extends TestCase
    */
   public function testTokenHashHandling()
   {
-    $tokenHash1 = $this->changeMailHelper->getTokenHash($this->token);
-    $tokenHash2 = $this->changeMailHelper->getTokenHash($this->token);
+    $token = $this->changeMailHelper->getToken();
+    $tokenHash1 = $this->changeMailHelper->getTokenHash($token);
+    $tokenHash2 = $this->changeMailHelper->getTokenHash($token);
 
     $this->assertEquals($tokenHash1, $tokenHash2, 'Token should be equal.');
   }

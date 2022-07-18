@@ -19,7 +19,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class ChangePWController extends AbstractController
 {
-  public function __construct(private MailerHelper $mailerHelper, private $enableCaptcha, private TranslatorInterface $translator)
+  public function __construct(private bool $enableCaptcha, private MailerHelper $mailerHelper, private TranslatorInterface $translator)
   {
   }
 
@@ -53,7 +53,7 @@ class ChangePWController extends AbstractController
           $this->addFlash('warning', $this->t('Password changed, please login') . '. But cannot send info mail to ' . $user->getEmail()); /* @phpstan-ignore-line */
         }
 
-        return $this->redirectToRoute('app_login');
+        return $this->redirectToRoute('app_logout');
       } else {
         $this->addFlash('danger', $this->t('Wrong password, please try again!'));
 

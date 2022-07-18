@@ -15,7 +15,7 @@ class ChangeMailControllerTest extends KernelTestCase
   {
     $kernel = new SvcProfileKernel();
     $client = new KernelBrowser($kernel);
-    $client->request('GET', '/api/cm/mail1_sent');
+    $client->request('GET', '/profile/cm/mail1_sent/');
     $this->assertSame(500, $client->getResponse()->getStatusCode());
   }
 }
