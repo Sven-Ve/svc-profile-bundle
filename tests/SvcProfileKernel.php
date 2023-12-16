@@ -83,7 +83,8 @@ class SvcProfileKernel extends Kernel
         ],
         'orm' => [
           'auto_generate_proxy_classes' => true,
-          'auto_mapping' => true
+          'auto_mapping' => true,
+          'enable_lazy_ghost_objects' => true
         ],
       ]);
 

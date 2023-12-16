@@ -79,7 +79,7 @@ class ChangeMailController extends AbstractController
       }
     }
 
-    return $this->renderForm('@SvcProfile/profile/changeMail/start.html.twig', [
+    return $this->render('@SvcProfile/profile/changeMail/start.html.twig', [
       'form' => $form,
     ]);
   }

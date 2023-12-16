@@ -95,12 +95,13 @@ class ChangeMailHelperTest extends TestCase
    *
    * @return void
    */
-  public function testCheckExpiredRequest2(): void
+
+   public function testCheckExpiredRequest2(): void
   {
     $user = new User();
 
     $userChange = new UserChanges();
-    $userChange->setExpiresAt(new \DateTimeImmutable(\sprintf('+%d seconds', -100)));
+    $userChange->setExpiresAt(new \DateTimeImmutable(\sprintf('-%d seconds', 1000)));
 
     $this->userChangeRep
       ->method('findOneBy')
@@ -109,6 +110,7 @@ class ChangeMailHelperTest extends TestCase
     $result = $this->changeMailHelper->checkExpiredRequest($user);
     $this->assertTrue($result);
   }
+
 
   /**
    * check, if email address exists (Case 1 = email exists)
