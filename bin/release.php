@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "5.0.1";
-$message = "ready for symfony 6.4 and 7 - fixing test errors";
+$version = "5.1.0";
+$message = "switching to karser/karser-recaptcha3-bundle";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);

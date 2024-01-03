@@ -37,6 +37,9 @@
     "symfony/browser-kit": "^6.3|^7",
     "phpstan/phpstan": "^1.10"
 },
+"suggest": {
+  "karser/karser-recaptcha3-bundle": "Could by used in the contact form"
+},
   "scripts": {
       "test": "vendor/bin/phpunit --testdox",
       "phpstan": "php -d memory_limit=-1 vendor/bin/phpstan analyse src/ --level 5 -c .phpstan.neon"
