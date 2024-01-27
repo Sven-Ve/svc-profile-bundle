@@ -17,7 +17,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class ChangeMailController extends AbstractController
 {
-  public function __construct(private bool $enableCaptcha, private ChangeMailHelper $helper, private TranslatorInterface $translator)
+  public function __construct(
+    private bool $enableCaptcha,
+    private ChangeMailHelper $helper,
+    private TranslatorInterface $translator)
   {
   }
 
@@ -87,7 +90,7 @@ class ChangeMailController extends AbstractController
   /**
    * info page about sending the first mail.
    */
-  public function mail1Sent(Request $request): Response
+  public function mail1Sent(): Response
   {
     $newMail = $_GET['newmail'] ?? '?';
 
@@ -99,7 +102,7 @@ class ChangeMailController extends AbstractController
   /**
    * Public method to activate the new mail address via token.
    */
-  public function activateNewMail(Request $request): Response
+  public function activateNewMail(): Response
   {
     $token = $_GET['token'] ?? '?';
     if (!$this->helper->activateNewMail($token)) {

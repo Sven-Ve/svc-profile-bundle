@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ChangeMailType extends AbstractType
 {
@@ -17,13 +18,21 @@ class ChangeMailType extends AbstractType
   {
     $builder
       ->add('email', EmailType::class, ['label' => 'New mail', 'attr' => ['autofocus' => true]])
-      ->add('password', PasswordType::class, ['help' => 'Please enter your password to check your identity']);
+      ->add('password', PasswordType::class, [
+        'help' => 'Please enter your password to check your identity',
+        'constraints' => [
+          new NotBlank([
+            'message' => 'Please enter a password',
+          ]),
+        ],
+        'toggle' => true,
+      ]);
 
     if ($options['enableCaptcha']) {
       /* @phpstan-ignore-next-line */
       $builder->add('captcha', Recaptcha3Type::class, [
-      /* @phpstan-ignore-next-line */
-      'constraints' => new Recaptcha3(),
+        /* @phpstan-ignore-next-line */
+        'constraints' => new Recaptcha3(),
         'action_name' => 'homepage',
       ]);
     }

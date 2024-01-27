@@ -20,15 +20,17 @@ class ChangePWType extends AbstractType
       ->add('password', PasswordType::class, [
         'help' => 'Please enter your old password to check your identity',
         'attr' => ['autofocus' => true],
+        'toggle' => true,
       ])
       ->add('plainPassword', PasswordType::class, [
         'label' => 'New password',
         'help' => 'Please enter a new password',
         'mapped' => false,
+        'toggle' => true,
         'constraints' => [
           new NotBlank(['message' => 'Please enter a password']),
           new Length([
-            'min' => 6,
+            'min' => 8,
             'minMessage' => 'Your password should be at least {{ limit }} characters',
             'max' => 4096,
           ]),
@@ -40,8 +42,8 @@ class ChangePWType extends AbstractType
       $builder->add('captcha', Recaptcha3Type::class, [
         /* @phpstan-ignore-next-line */
         'constraints' => new Recaptcha3(),
-          'action_name' => 'homepage',
-        ]);  
+        'action_name' => 'homepage',
+      ]);
     }
 
     $builder

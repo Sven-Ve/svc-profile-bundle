@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-$version = "5.1.0";
-$message = "switching to karser/karser-recaptcha3-bundle";
+$version = "6.0.0";
+$message = "using symfony/ux-toggle-password to display the password, needs symfony >=6.4";
 
 echo("Running phpstan:\n");
 system("composer run-script phpstan", $res);

@@ -19,7 +19,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class ChangePWController extends AbstractController
 {
-  public function __construct(private bool $enableCaptcha, private MailerHelper $mailerHelper, private TranslatorInterface $translator)
+  public function __construct(
+    private bool $enableCaptcha,
+    private MailerHelper $mailerHelper,
+    private TranslatorInterface $translator)
   {
   }
 

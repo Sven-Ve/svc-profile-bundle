@@ -135,3 +135,8 @@
 ## Version 5.1.0
 *Wed, 03 Jan 2024 20:16:15 +0000*
 - switching to karser/karser-recaptcha3-bundle
+
+
+## Version 6.0.0
+*Sat, 27 Jan 2024 20:43:35 +0000*
+- using symfony/ux-toggle-password to display the password, needs symfony >=6.4
