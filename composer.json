@@ -14,7 +14,7 @@
     "svc/util-bundle": "^5|dev-main",
     "symfony/framework-bundle": "^6.4|^7",
     "doctrine/doctrine-bundle": "^2.10",
-    "doctrine/orm": "^2.15",
+    "doctrine/orm": "^2.15 | ^3",
     "symfony/validator": "^6.4|^7",
     "symfony/translation": "^6.4|^7",
     "symfony/twig-bundle": "^6.4|^7",
