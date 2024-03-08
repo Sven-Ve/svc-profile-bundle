@@ -140,3 +140,8 @@
 ## Version 6.0.0
 *Sat, 27 Jan 2024 20:43:35 +0000*
 - using symfony/ux-toggle-password to display the password, needs symfony >=6.4
+
+
+## Version 6.1.0
+*Fri, 08 Mar 2024 20:43:45 +0000*
+- runs with doctrin/orm ^3 too
