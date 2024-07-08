@@ -19,7 +19,7 @@ class UserChanges
 
   #[ORM\OneToOne()]
   #[ORM\JoinColumn(nullable: false)]
-  private ?User $user = null; /** @phpstan-ignore-line */
+  private ?User $user = null;
   #[ORM\Column(type: 'smallint')]
   private ?int $changeType = null;
 
@@ -37,13 +37,11 @@ class UserChanges
     return $this->id;
   }
 
-  /** @phpstan-ignore-next-line */
   public function getUser(): ?User
   {
     return $this->user;
   }
 
-  /** @phpstan-ignore-next-line */
   public function setUser(User $user): self
   {
     $this->user = $user;

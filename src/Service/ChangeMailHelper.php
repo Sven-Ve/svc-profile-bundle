@@ -26,9 +26,9 @@ class ChangeMailHelper
   private const SECRETKEY = '23573BE852F6D1C73B314809E940F19F3D00EF1CD99147462861BB714E68DCC1';
   private const TYPCHANGEMAIL = 1;
 
-  private $userRep;
+  private $userRep; /** @phpstan-ignore-line */
 
-  private $token;
+  private ?string $token = null;
 
   public function __construct(
     private UserChangesRepository $userChangeRep,
@@ -38,14 +38,11 @@ class ChangeMailHelper
     private RouterInterface $router,
     private TranslatorInterface $translator
   ) {
-    /* @phpstan-ignore-next-line */
     $this->userRep = $this->entityManager->getRepository(User::class);
   }
 
   /**
    * check if a request exists and if it expired.
-   *
-   * @phpstan-ignore-next-line
    */
   public function checkExpiredRequest(User $user): bool
   {
@@ -69,7 +66,6 @@ class ChangeMailHelper
    *
    * @param string $email email address to be checked
    *
-   * @phpstan-ignore-next-line
    */
   public function checkMailExists(string $email): ?User
   {
@@ -78,8 +74,6 @@ class ChangeMailHelper
 
   /**
    * write the change record in table userChanges.
-   *
-   * @phpstan-ignore-next-line
    */
   public function writeUserChangeRecord(User $user, string $newMail): void
   {
@@ -150,12 +144,12 @@ class ChangeMailHelper
     }
 
     $user = $entry->getUser();
-    $oldMail = $user->getEmail();  /** @phpstan-ignore-line */
+    $oldMail = $user->getEmail();  
     $newMail = $entry->getNewMail();
 
     $this->sendActivationDoneMail($oldMail, $newMail);
 
-    $user->setEmail($newMail);  /* @phpstan-ignore-line */
+    $user->setEmail($newMail);  
 
     $this->entityManager->persist($user);
     $this->entityManager->flush();

@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd" backupGlobals="false" colors="true" bootstrap="vendor/autoload.php" cacheDirectory=".phpunit.cache">
   <coverage/>
-  <php>
-    <env name="KERNEL_CLASS" value="Svc\ProfileBundle\Tests\SvcProfileTestingKernel"/>
-    <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>
-  </php>
   <testsuites>
     <testsuite name="Test Suite">
       <directory>./tests</directory>
     </testsuite>
   </testsuites>
+  <php>
+      <server name="KERNEL_CLASS" value="Svc\ProfileBundle\Tests\SvcProfileKernel"/>
+  </php>  
   <source>
     <include>
       <directory suffix=".php">./src</directory>

@@ -145,3 +145,8 @@
 ## Version 6.1.0
 *Fri, 08 Mar 2024 20:43:45 +0000*
 - runs with doctrin/orm ^3 too
+
+
+## Version 6.2.0
+*Mon, 08 Jul 2024 09:36:16 +0000*
+- better testing kernel, phpstan now level 7, fixed phpstan errors

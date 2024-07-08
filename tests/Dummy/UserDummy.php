@@ -11,8 +11,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class User
 {
-  private $id;
-  private $email;
+  // @phpstan-ignore-next-line
+  private int $id;
+  private string $email;
 
   public function getEmail(): ?string
   {

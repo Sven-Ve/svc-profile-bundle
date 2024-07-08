@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace Svc\ProfileBundle\Tests\Service;
 
-require_once(__dir__ . "/../Dummy/UserRepositoryDummy.php");
-
+require_once __DIR__ . '/../Dummy/UserDummy.php';
 
 use App\Entity\User;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Svc\ProfileBundle\Entity\UserChanges;
@@ -20,25 +18,25 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
 /**
- * testing the ChangeMailHelper class
+ * testing the ChangeMailHelper class.
  */
 class ChangeMailHelperTest extends TestCase
 {
+  private EntityManagerInterface $em;
 
-  private $em;
-  private $userChangeRep;
-  private $mailerHelper;
-  private $translator;
-  private $twig;
-  private $router;
-  private $userRep;
-  private $token;
-  private $changeMailHelper;
+  private UserChangesRepository $userChangeRep;
+
+  private MailerHelper $mailerHelper;
+
+  private TranslatorInterface $translator;
+
+  private Environment $twig;
+
+  private RouterInterface $router;
+  private ChangeMailHelper $changeMailHelper;
 
   /**
-   * prepare the mockups, load the class
-   *
-   * @return void
+   * prepare the mockups, load the class.
    */
   protected function setUp(): void
   {
@@ -48,7 +46,7 @@ class ChangeMailHelperTest extends TestCase
     $this->translator = $this->createMock(TranslatorInterface::class);
     $this->twig = $this->createMock(Environment::class);
     $this->router = $this->createMock(RouterInterface::class);
-    $this->userRep = $this->createMock(UserRepository::class);
+//    $this->userRep = $this->createMock(UserRepository::class);
 
     $this->changeMailHelper = new ChangeMailHelper(
       $this->userChangeRep,
@@ -61,9 +59,7 @@ class ChangeMailHelperTest extends TestCase
   }
 
   /**
-   * check, if we load the correct class
-   *
-   * @return void
+   * check, if we load the correct class.
    */
   public function testClassLoad(): void
   {
@@ -71,9 +67,7 @@ class ChangeMailHelperTest extends TestCase
   }
 
   /**
-   * Check, if Change record expired (Case 1 = not expired)
-   *
-   * @return void
+   * Check, if Change record expired (Case 1 = not expired).
    */
   public function testCheckExpiredRequest1(): void
   {
@@ -91,12 +85,9 @@ class ChangeMailHelperTest extends TestCase
   }
 
   /**
-   * Check, if Change record expired (Case 2 = expired)
-   *
-   * @return void
+   * Check, if Change record expired (Case 2 = expired).
    */
-
-   public function testCheckExpiredRequest2(): void
+  public function testCheckExpiredRequest2(): void
   {
     $user = new User();
 
@@ -111,46 +102,45 @@ class ChangeMailHelperTest extends TestCase
     $this->assertTrue($result);
   }
 
-
   /**
-   * check, if email address exists (Case 1 = email exists)
+   * check, if email address exists (Case 1 = email exists).
    *
    * @return void
    */
-/*   public function testCheckMailExists1()
-  {
-    $email = "test@test.com";
+  /*   public function testCheckMailExists1()
+    {
+      $email = "test@test.com";
 
-    $user = new User();
-    $user->setEmail($email);
+      $user = new User();
+      $user->setEmail($email);
 
-    $this->userRep
-      ->method('findOneBy')
-      ->willReturn($user);
+      $this->userRep
+        ->method('findOneBy')
+        ->willReturn($user);
 
-    $result = $this->changeMailHelper->checkMailExists($email);
-    $this->assertEquals($email, $result->getEmail());
-  } */
+      $result = $this->changeMailHelper->checkMailExists($email);
+      $this->assertEquals($email, $result->getEmail());
+    } */
 
   /**
-   * check, if email address exists (Case 2 = email not exists)
+   * check, if email address exists (Case 2 = email not exists).
    *
    * @return void
    */
-/*   public function testCheckMailExists2()
-  {
-    $email = "test@test.com";
+  /*   public function testCheckMailExists2()
+    {
+      $email = "test@test.com";
 
-    $this->userRep
-      ->method('findOneBy')
-      ->willReturn(null);
+      $this->userRep
+        ->method('findOneBy')
+        ->willReturn(null);
 
-    $result = $this->changeMailHelper->checkMailExists($email);
-    $this->assertNull($result);
-  } */
+      $result = $this->changeMailHelper->checkMailExists($email);
+      $this->assertNull($result);
+    } */
 
   /**
-   * check token creation
+   * check token creation.
    *
    * @return void
    */
@@ -158,13 +148,12 @@ class ChangeMailHelperTest extends TestCase
   {
     $token1 = $this->changeMailHelper->getToken();
     $token2 = $this->changeMailHelper->getToken();
-    $this->token = $token1;
 
     $this->assertEquals($token1, $token2, 'Token should be stored.');
   }
 
   /**
-   * check token hash creation
+   * check token hash creation.
    *
    * @return void
    */

@@ -118,6 +118,7 @@ class ChangeMailController extends AbstractController
 
   /**
    * private function to translate content in namespace 'ProfileBundle'.
+   * @param array<mixed> $placeholder
    */
   private function t(string $text, array $placeholder = []): string
   {
