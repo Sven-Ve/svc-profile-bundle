@@ -33,6 +33,7 @@ class ChangeMailHelperTest extends TestCase
   private Environment $twig;
 
   private RouterInterface $router;
+
   private ChangeMailHelper $changeMailHelper;
 
   /**
@@ -46,7 +47,7 @@ class ChangeMailHelperTest extends TestCase
     $this->translator = $this->createMock(TranslatorInterface::class);
     $this->twig = $this->createMock(Environment::class);
     $this->router = $this->createMock(RouterInterface::class);
-//    $this->userRep = $this->createMock(UserRepository::class);
+    //    $this->userRep = $this->createMock(UserRepository::class);
 
     $this->changeMailHelper = new ChangeMailHelper(
       $this->userChangeRep,

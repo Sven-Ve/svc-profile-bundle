@@ -20,6 +20,7 @@ class UserChanges
   #[ORM\OneToOne()]
   #[ORM\JoinColumn(nullable: false)]
   private ?User $user = null;
+
   #[ORM\Column(type: 'smallint')]
   private ?int $changeType = null;
 

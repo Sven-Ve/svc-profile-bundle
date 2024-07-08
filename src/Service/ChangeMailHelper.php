@@ -26,7 +26,8 @@ class ChangeMailHelper
   private const SECRETKEY = '23573BE852F6D1C73B314809E940F19F3D00EF1CD99147462861BB714E68DCC1';
   private const TYPCHANGEMAIL = 1;
 
-  private $userRep; /** @phpstan-ignore-line */
+  /** @phpstan-ignore-next-line */
+  private $userRep;
 
   private ?string $token = null;
 
@@ -65,7 +66,6 @@ class ChangeMailHelper
    * Check, if user record with this mail adress exists.
    *
    * @param string $email email address to be checked
-   *
    */
   public function checkMailExists(string $email): ?User
   {
@@ -144,12 +144,12 @@ class ChangeMailHelper
     }
 
     $user = $entry->getUser();
-    $oldMail = $user->getEmail();  
+    $oldMail = $user->getEmail();
     $newMail = $entry->getNewMail();
 
     $this->sendActivationDoneMail($oldMail, $newMail);
 
-    $user->setEmail($newMail);  
+    $user->setEmail($newMail);
 
     $this->entityManager->persist($user);
     $this->entityManager->flush();
