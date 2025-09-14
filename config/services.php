@@ -13,6 +13,7 @@ use Svc\ProfileBundle\Controller\ChangeMailController;
 use Svc\ProfileBundle\Controller\ChangePWController;
 use Svc\ProfileBundle\Repository\UserChangesRepository;
 use Svc\ProfileBundle\Service\ChangeMailHelper;
+use Svc\ProfileBundle\Validator\Constraints\ValidEmailDomainValidator;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return function (ContainerConfigurator $container): void {
@@ -29,4 +30,7 @@ return function (ContainerConfigurator $container): void {
 
     $services->set(UserChangesRepository::class)
         ->tag('doctrine.repository_service');
+
+    $services->set(ValidEmailDomainValidator::class)
+        ->tag('validator.constraint_validator');
 };

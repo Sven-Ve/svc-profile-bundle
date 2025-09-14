@@ -37,6 +37,7 @@ return  [
     'Please login before changing email address.' => 'Bitte melde dich an, bevor du deine Emailadresse änderst.',
     'Your new mail is activated. Please re-login.' => 'Die Emailadresse wurde geändert, bitte melde dich neu an.',
     "You have to enter a new mail address. 'newMail' is your old one." => "Du musst eine andere Emailadresse angeben. 'newMail' ist deine aktuelle Adresse.",
-    '' => '',
-    '' => '',
+    'Invalid token format' => 'Ungültiges Token-Format',
+    'Request is expired or not found. Please start again' => 'Anfrage ist abgelaufen oder nicht gefunden. Bitte beginne erneut',
+    'We sent a confirmation mail to your new email address.' => 'Wir haben eine Bestätigungsmail an deine neue Email-Adresse gesendet.',
 ];

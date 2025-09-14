@@ -19,6 +19,9 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Svc\ProfileBundle\Validator\Constraints\ValidEmailDomain;
+use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ChangeMailType extends AbstractType
@@ -26,7 +29,24 @@ class ChangeMailType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-          ->add('email', EmailType::class, ['label' => 'New mail', 'attr' => ['autofocus' => true]])
+          ->add('email', EmailType::class, [
+              'label' => 'New mail',
+              'attr' => ['autofocus' => true],
+              'constraints' => [
+                  new NotBlank([
+                      'message' => 'Please enter an email address',
+                  ]),
+                  new Email([
+                      'message' => 'Please enter a valid email address',
+                      'mode' => Email::VALIDATION_MODE_STRICT,
+                  ]),
+                  new Length([
+                      'max' => 254, // RFC 5321 maximum email address length
+                      'maxMessage' => 'Email address cannot be longer than {{ limit }} characters',
+                  ]),
+                  new ValidEmailDomain(),
+              ],
+          ])
           ->add('password', PasswordType::class, [
               'help' => 'Please enter your password to check your identity',
               'constraints' => [

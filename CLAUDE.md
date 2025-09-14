@@ -38,16 +38,27 @@ The bundle follows modern Symfony architecture with:
 - Configurable captcha enablement via `enableCaptcha` boolean option
 - Service definitions in `config/services.php` (PHP format)
 - Route definitions in `config/routes.php` (PHP format)
+- **Breaking Change v6.3.0**: Routes must be imported manually in applications
+
+### Security Architecture
+- **XSS Protection**: All user input validated via Symfony Request objects
+- **Token Security**: HMAC-SHA256 token hashing with configurable secret
+- **Email Validation**: Custom ValidEmailDomain constraint blocks disposable domains
+- **Environment Configuration**: Requires `SVC_PROFILE_HASH_SECRET` environment variable
 
 ### Core Components
 
 **Controllers:**
-- `ChangeMailController` - Handles email change requests and confirmations
+- `ChangeMailController` - Handles email change requests and confirmations (XSS-safe)
 - `ChangePWController` - Handles password change functionality
 
 **Forms:**
-- `ChangeMailType` - Email change form with validation
+- `ChangeMailType` - Email change form with comprehensive validation
 - `ChangePWType` - Password change form with validation
+
+**Validators:**
+- `ValidEmailDomain` - Custom constraint for email domain validation
+- `ValidEmailDomainValidator` - Blocks disposable emails and validates MX records
 
 **Entity:**
 - `UserChanges` - Tracks pending user changes (email/password)
@@ -69,10 +80,34 @@ The bundle follows modern Symfony architecture with:
 - UserDummy class for test data
 - Functional tests for controllers and services
 - PHPUnit configuration in `phpunit.xml.dist`
+- Security-focused tests for XSS prevention and validation
 
-## Code Style
+### Configuration Flow
+1. Bundle auto-configures services via `config/services.php`
+2. Routes loaded from `config/routes.php` (manual import required in v6.3.0+)
+3. Environment variable `SVC_PROFILE_HASH_SECRET` required for token security
+4. Optional reCAPTCHA configuration via `svc_profile.enableCaptcha`
+
+## Development Guidelines
+
+### Security Requirements
+- Always use Symfony Request objects instead of direct `$_GET`/`$_POST` access
+- Validate all user input with appropriate constraints
+- Use environment variables for secrets, never hardcode
+- Test XSS prevention in templates and controllers
+
+### Code Style
 - Uses PHP-CS-Fixer with Symfony and PSR-12 standards
 - Custom header comment with copyright information
 - Short array syntax enforced
 - Single quotes preferred
 - Specific formatting rules for arrays and concatenation
+
+### Localization
+- German translations use "Du" form consistently
+- All user-facing messages should be translatable via ProfileBundle domain
+
+### Release Process
+- CHANGELOG.md is automatically updated by `bin/release.php`
+- Make version/message changes in `bin/release.php`, not CHANGELOG.md directly
+- Release script runs PHPStan + tests before git operations

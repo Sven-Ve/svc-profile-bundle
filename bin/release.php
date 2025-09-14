@@ -10,8 +10,8 @@
  * file that was distributed with this source code.
  */
 
-$version = '6.2.0';
-$message = 'better testing kernel, phpstan now level 7, fixed phpstan errors';
+$version = '6.3.0';
+$message = 'BREAKING CHANGE: PHP route configuration, manual import required. SECURITY FIXES: XSS vulnerability, hardcoded secret removed, enhanced email validation. See migration guide.';
 
 echo "Running phpstan:\n";
 system('composer run-script phpstan', $res);

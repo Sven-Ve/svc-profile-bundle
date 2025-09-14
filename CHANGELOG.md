@@ -150,3 +150,8 @@
 ## Version 6.2.0
 *Mon, 08 Jul 2024 09:36:16 +0000*
 - better testing kernel, phpstan now level 7, fixed phpstan errors
+
+
+## Version 6.3.0
+*Sun, 14 Sep 2025 13:04:09 +0000*
+- BREAKING CHANGE: PHP route configuration, manual import required. SECURITY FIXES: XSS vulnerability, hardcoded secret removed, enhanced email validation. See migration guide.

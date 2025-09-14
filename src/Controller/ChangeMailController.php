@@ -99,9 +99,14 @@ class ChangeMailController extends AbstractController
     /**
      * info page about sending the first mail.
      */
-    public function mail1Sent(): Response
+    public function mail1Sent(Request $request): Response
     {
-        $newMail = $_GET['newmail'] ?? '?';
+        $newMail = $request->query->get('newmail', '');
+
+        // Validate and sanitize the email parameter
+        if (!filter_var($newMail, FILTER_VALIDATE_EMAIL)) {
+            $newMail = '';
+        }
 
         return $this->render('@SvcProfile/profile/changeMail/mail1_sent.html.twig', [
             'newMail' => $newMail,
@@ -111,9 +116,17 @@ class ChangeMailController extends AbstractController
     /**
      * Public method to activate the new mail address via token.
      */
-    public function activateNewMail(): Response
+    public function activateNewMail(Request $request): Response
     {
-        $token = $_GET['token'] ?? '?';
+        $token = (string) $request->query->get('token', '');
+
+        // Validate token format (32 hex characters)
+        if (!preg_match('/^[a-f0-9]{32}$/', $token)) {
+            $this->addFlash('danger', $this->t('Invalid token format'));
+
+            return $this->redirectToRoute('svc_profile_change_mail_start');
+        }
+
         if (!$this->helper->activateNewMail($token)) {
             $this->addFlash('danger', $this->t('Request is expired or not found. Please start again'));
 

@@ -39,3 +39,18 @@ return [
     Svc\ProfileBundle\SvcProfileBundle::class => ['all' => true],
 ];
 ```
+
+### Step 3: Import Routes (Required for Version 6.3.0+)
+
+**Breaking Change:** Starting with version 6.3.0, routes must be imported manually.
+
+Create a route configuration file:
+
+```yaml
+# config/routes/svc_profile.yaml
+_svc_profile:
+    resource: '@SvcProfileBundle/config/routes.php'
+    prefix: /profile
+```
+
+**Note**: The bundle now uses PHP format for route configuration instead of YAML for better type safety and IDE support.

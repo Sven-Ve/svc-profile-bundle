@@ -7,7 +7,11 @@
 {% trans_default_domain 'ProfileBundle' %}
 <h1>{% trans %}Mail sent{% endtrans %}</h1>
 
-{% trans %}We sent a mail to %newMail%.{% endtrans %} {% trans %}Please check it and confirm the change.{% endtrans %}
+{% if newMail %}
+    {% trans %}We sent a mail to %newMail%.{% endtrans %} {% trans %}Please check it and confirm the change.{% endtrans %}
+{% else %}
+    {% trans %}We sent a confirmation mail to your new email address.{% endtrans %} {% trans %}Please check it and confirm the change.{% endtrans %}
+{% endif %}
 
 
 {% endblock %}
