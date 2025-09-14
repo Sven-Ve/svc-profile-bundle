@@ -10,3 +10,5 @@ parameters:
         - '#Method Svc\\ProfileBundle\\Tests\\SvcProfileKernel::configureRoutes\(\) is unused.#'
         - '#Class Svc\\ProfileBundle\\Repository\\UserChangesRepository extends generic class.*#'
         - '#Call to an undefined method .*::method\(\).#'
+        - identifier: missingType.iterableValue
+        - identifier: property.unusedType

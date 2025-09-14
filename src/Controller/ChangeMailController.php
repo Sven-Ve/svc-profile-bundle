@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the svc/profile-bundle.
+ *
+ * (c) 2025 Sven Vetter <dev@sv-systems.com>.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Svc\ProfileBundle\Controller;
 
 use Svc\ProfileBundle\Form\ChangeMailType;
@@ -17,112 +26,112 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class ChangeMailController extends AbstractController
 {
-  public function __construct(
-    private bool $enableCaptcha,
-    private ChangeMailHelper $helper,
-    private TranslatorInterface $translator)
-  {
-  }
-
-  /**
-   * Display and handle a form to start the process of changing the mail address.
-   */
-  public function startForm(Request $request, UserPasswordHasherInterface $passwordHasher): Response
-  {
-    $user = $this->getUser();
-    if (!$user) {
-      $this->addFlash('warning', $this->t('Please login before changing email address.'));
-
-      return $this->redirectToRoute('app_login');
+    public function __construct(
+        private bool $enableCaptcha,
+        private ChangeMailHelper $helper,
+        private TranslatorInterface $translator,
+    ) {
     }
 
-    $form = $this->createForm(ChangeMailType::class, null, ['enableCaptcha' => $this->enableCaptcha]);
-    $form->handleRequest($request);
+    /**
+     * Display and handle a form to start the process of changing the mail address.
+     */
+    public function startForm(Request $request, UserPasswordHasherInterface $passwordHasher): Response
+    {
+        $user = $this->getUser();
+        if (!$user) {
+            $this->addFlash('warning', $this->t('Please login before changing email address.'));
 
-    if ($form->isSubmitted() && $form->isValid()) {
-      $newMail = trim($form->get('email')->getData());
-      if (strtolower($user->getEmail()) == strtolower($newMail)) { /* @phpstan-ignore-line */
-        $this->addFlash(
-          'danger',
-          $this->t("You have to enter a new mail address. 'newMail' is your old one.", ['newMail' => $newMail])
-        );
-
-        return $this->redirectToRoute('svc_profile_change_mail_start');
-      }
-
-      if (!$this->helper->checkExpiredRequest($user)) {  /* @phpstan-ignore-line */
-        $this->addFlash('danger', $this->t('You requested already a mail change. Please check your mail to confirm it.'));
-
-        return $this->redirectToRoute('svc_profile_change_mail_start');
-      }
-
-      if ($this->helper->checkMailExists($newMail)) {
-        $this->addFlash('danger', "Mail address $newMail already exists. Please choose another on");
-
-        return $this->redirectToRoute('svc_profile_change_mail_start');
-      }
-
-      $credential = $form->get('password')->getData();
-
-      /* @phpstan-ignore-next-line */
-      if ($passwordHasher->isPasswordValid($user, $credential)) {
-        $this->helper->writeUserChangeRecord($user, $newMail);  /* @phpstan-ignore-line */
-
-        if (!$this->helper->sendActivationMail($newMail)) {
-          $this->addFlash('danger', "Cannot send mail to $newMail. Address exists?");
-
-          return $this->redirectToRoute('svc_profile_change_mail_start');
+            return $this->redirectToRoute('app_login');
         }
 
-        return $this->redirectToRoute('svc_profile_change_mail_sent1', ['newmail' => $newMail]);
-      } else {
-        $this->addFlash('danger', $this->t('Wrong password, please try again!'));
+        $form = $this->createForm(ChangeMailType::class, null, ['enableCaptcha' => $this->enableCaptcha]);
+        $form->handleRequest($request);
 
-        return $this->redirectToRoute('svc_profile_change_mail_start');
-      }
+        if ($form->isSubmitted() && $form->isValid()) {
+            $newMail = trim($form->get('email')->getData());
+            if (strtolower($user->getEmail()) == strtolower($newMail)) { /* @phpstan-ignore-line */
+                $this->addFlash(
+                    'danger',
+                    $this->t("You have to enter a new mail address. 'newMail' is your old one.", ['newMail' => $newMail])
+                );
+
+                return $this->redirectToRoute('svc_profile_change_mail_start');
+            }
+
+            if (!$this->helper->checkExpiredRequest($user)) {  /* @phpstan-ignore-line */
+                $this->addFlash('danger', $this->t('You requested already a mail change. Please check your mail to confirm it.'));
+
+                return $this->redirectToRoute('svc_profile_change_mail_start');
+            }
+
+            if ($this->helper->checkMailExists($newMail)) {
+                $this->addFlash('danger', "Mail address $newMail already exists. Please choose another on");
+
+                return $this->redirectToRoute('svc_profile_change_mail_start');
+            }
+
+            $credential = $form->get('password')->getData();
+
+            /* @phpstan-ignore-next-line */
+            if ($passwordHasher->isPasswordValid($user, $credential)) {
+                $this->helper->writeUserChangeRecord($user, $newMail);  /* @phpstan-ignore-line */
+
+                if (!$this->helper->sendActivationMail($newMail)) {
+                    $this->addFlash('danger', "Cannot send mail to $newMail. Address exists?");
+
+                    return $this->redirectToRoute('svc_profile_change_mail_start');
+                }
+
+                return $this->redirectToRoute('svc_profile_change_mail_sent1', ['newmail' => $newMail]);
+            }
+            $this->addFlash('danger', $this->t('Wrong password, please try again!'));
+
+            return $this->redirectToRoute('svc_profile_change_mail_start');
+
+        }
+
+        return $this->render('@SvcProfile/profile/changeMail/start.html.twig', [
+            'form' => $form,
+        ]);
     }
 
-    return $this->render('@SvcProfile/profile/changeMail/start.html.twig', [
-      'form' => $form,
-    ]);
-  }
+    /**
+     * info page about sending the first mail.
+     */
+    public function mail1Sent(): Response
+    {
+        $newMail = $_GET['newmail'] ?? '?';
 
-  /**
-   * info page about sending the first mail.
-   */
-  public function mail1Sent(): Response
-  {
-    $newMail = $_GET['newmail'] ?? '?';
-
-    return $this->render('@SvcProfile/profile/changeMail/mail1_sent.html.twig', [
-      'newMail' => $newMail,
-    ]);
-  }
-
-  /**
-   * Public method to activate the new mail address via token.
-   */
-  public function activateNewMail(): Response
-  {
-    $token = $_GET['token'] ?? '?';
-    if (!$this->helper->activateNewMail($token)) {
-      $this->addFlash('danger', $this->t('Request is expired or not found. Please start again'));
-
-      return $this->redirectToRoute('svc_profile_change_mail_start');
+        return $this->render('@SvcProfile/profile/changeMail/mail1_sent.html.twig', [
+            'newMail' => $newMail,
+        ]);
     }
 
-    $this->addFlash('success', $this->t('Your new mail is activated. Please re-login.'));
+    /**
+     * Public method to activate the new mail address via token.
+     */
+    public function activateNewMail(): Response
+    {
+        $token = $_GET['token'] ?? '?';
+        if (!$this->helper->activateNewMail($token)) {
+            $this->addFlash('danger', $this->t('Request is expired or not found. Please start again'));
 
-    return $this->redirectToRoute('app_login');
-  }
+            return $this->redirectToRoute('svc_profile_change_mail_start');
+        }
 
-  /**
-   * private function to translate content in namespace 'ProfileBundle'.
-   *
-   * @param array<mixed> $placeholder
-   */
-  private function t(string $text, array $placeholder = []): string
-  {
-    return $this->translator->trans($text, $placeholder, 'ProfileBundle');
-  }
+        $this->addFlash('success', $this->t('Your new mail is activated. Please re-login.'));
+
+        return $this->redirectToRoute('app_login');
+    }
+
+    /**
+     * private function to translate content in namespace 'ProfileBundle'.
+     *
+     * @param array<mixed> $placeholder
+     */
+    private function t(string $text, array $placeholder = []): string
+    {
+        return $this->translator->trans($text, $placeholder, 'ProfileBundle');
+    }
 }

@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the svc/profile-bundle.
+ *
+ * (c) 2025 Sven Vetter <dev@sv-systems.com>.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Svc\ProfileBundle\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,73 +28,73 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class ChangePWController extends AbstractController
 {
-  public function __construct(
-    private bool $enableCaptcha,
-    private MailerHelper $mailerHelper,
-    private TranslatorInterface $translator)
-  {
-  }
-
-  /**
-   * Display and handle a form to start the process of changing the password.
-   */
-  public function startForm(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager): Response
-  {
-    $user = $this->getUser();
-    if (!$user) {
-      $this->addFlash('warning', $this->t('Please login before changing password.'));
-
-      return $this->redirectToRoute('app_login');
+    public function __construct(
+        private bool $enableCaptcha,
+        private MailerHelper $mailerHelper,
+        private TranslatorInterface $translator,
+    ) {
     }
 
-    $form = $this->createForm(ChangePWType::class, null, ['enableCaptcha' => $this->enableCaptcha]);
-    $form->handleRequest($request);
-    $user = $this->getUser();
+    /**
+     * Display and handle a form to start the process of changing the password.
+     */
+    public function startForm(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager): Response
+    {
+        $user = $this->getUser();
+        if (!$user) {
+            $this->addFlash('warning', $this->t('Please login before changing password.'));
 
-    if ($form->isSubmitted() && $form->isValid()) {
-      $oldPW = $form->get('password')->getData();
-      if ($passwordHasher->isPasswordValid($user, $oldPW)) { /** @phpstan-ignore-line */
-        $newPW = trim($form->get('plainPassword')->getData());
-        $user->setPassword($passwordHasher->hashPassword($user, $newPW)); /* @phpstan-ignore-line */
-
-        $entityManager->persist($user);
-        $entityManager->flush();
-        if ($this->sendPasswordChangedMail($user->getEmail())) { /* @phpstan-ignore-line */
-          $this->addFlash('success', $this->t('Password changed, please login'));
-        } else {
-          $this->addFlash('warning', $this->t('Password changed, please login') . '. But cannot send info mail to ' . $user->getEmail()); /* @phpstan-ignore-line */
+            return $this->redirectToRoute('app_login');
         }
 
-        return $this->redirectToRoute('app_logout');
-      } else {
-        $this->addFlash('danger', $this->t('Wrong password, please try again!'));
+        $form = $this->createForm(ChangePWType::class, null, ['enableCaptcha' => $this->enableCaptcha]);
+        $form->handleRequest($request);
+        $user = $this->getUser();
 
-        return $this->redirectToRoute('svc_profile_change_pw_start');
-      }
+        if ($form->isSubmitted() && $form->isValid()) {
+            $oldPW = $form->get('password')->getData();
+            if ($passwordHasher->isPasswordValid($user, $oldPW)) { /** @phpstan-ignore-line */
+                $newPW = trim($form->get('plainPassword')->getData());
+                $user->setPassword($passwordHasher->hashPassword($user, $newPW)); /* @phpstan-ignore-line */
+
+                $entityManager->persist($user);
+                $entityManager->flush();
+                if ($this->sendPasswordChangedMail($user->getEmail())) { /* @phpstan-ignore-line */
+                    $this->addFlash('success', $this->t('Password changed, please login'));
+                } else {
+                    $this->addFlash('warning', $this->t('Password changed, please login') . '. But cannot send info mail to ' . $user->getEmail()); /* @phpstan-ignore-line */
+                }
+
+                return $this->redirectToRoute('app_logout');
+            }
+            $this->addFlash('danger', $this->t('Wrong password, please try again!'));
+
+            return $this->redirectToRoute('svc_profile_change_pw_start');
+
+        }
+
+        return $this->render('@SvcProfile/profile/changePW/start.html.twig', ['form' => $form]);
     }
 
-    return $this->render('@SvcProfile/profile/changePW/start.html.twig', ['form' => $form]);
-  }
+    /**
+     * send a mail with info anout password change.
+     *
+     * @param string $mail email address to send
+     */
+    public function sendPasswordChangedMail(string $mail): bool
+    {
+        $url = EnvInfoHelper::getURLtoIndexPhp();
+        $html = $this->renderView('@SvcProfile/profile/changePW/MT_pwChanged.html.twig', ['startPage' => $url, 'mail' => $mail]);
+        $text = $this->renderView('@SvcProfile/profile/changePW/MT_pwChanged.text.twig', ['startPage' => $url, 'mail' => $mail]);
 
-  /**
-   * send a mail with info anout password change.
-   *
-   * @param string $mail email address to send
-   */
-  public function sendPasswordChangedMail(string $mail): bool
-  {
-    $url = EnvInfoHelper::getURLtoIndexPhp();
-    $html = $this->renderView('@SvcProfile/profile/changePW/MT_pwChanged.html.twig', ['startPage' => $url, 'mail' => $mail]);
-    $text = $this->renderView('@SvcProfile/profile/changePW/MT_pwChanged.text.twig', ['startPage' => $url, 'mail' => $mail]);
+        return $this->mailerHelper->send($mail, $this->t('Password changed'), $html, $text);
+    }
 
-    return $this->mailerHelper->send($mail, $this->t('Password changed'), $html, $text);
-  }
-
-  /**
-   * private function to translate content in namespace 'ProfileBundle'.
-   */
-  private function t(string $text): string
-  {
-    return $this->translator->trans($text, [], 'ProfileBundle');
-  }
+    /**
+     * private function to translate content in namespace 'ProfileBundle'.
+     */
+    private function t(string $text): string
+    {
+        return $this->translator->trans($text, [], 'ProfileBundle');
+    }
 }

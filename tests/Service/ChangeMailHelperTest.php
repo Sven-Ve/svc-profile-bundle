@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the svc/profile-bundle.
+ *
+ * (c) 2025 Sven Vetter <dev@sv-systems.com>.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Svc\ProfileBundle\Tests\Service;
 
 require_once __DIR__ . '/../Dummy/UserDummy.php';
@@ -22,148 +31,148 @@ use Twig\Environment;
  */
 class ChangeMailHelperTest extends TestCase
 {
-  private EntityManagerInterface $em;
+    private EntityManagerInterface $em;
 
-  private UserChangesRepository $userChangeRep;
+    private UserChangesRepository $userChangeRep;
 
-  private MailerHelper $mailerHelper;
+    private MailerHelper $mailerHelper;
 
-  private TranslatorInterface $translator;
+    private TranslatorInterface $translator;
 
-  private Environment $twig;
+    private Environment $twig;
 
-  private RouterInterface $router;
+    private RouterInterface $router;
 
-  private ChangeMailHelper $changeMailHelper;
+    private ChangeMailHelper $changeMailHelper;
 
-  /**
-   * prepare the mockups, load the class.
-   */
-  protected function setUp(): void
-  {
-    $this->em = $this->createMock(EntityManagerInterface::class);
-    $this->userChangeRep = $this->createMock(UserChangesRepository::class);
-    $this->mailerHelper = $this->createMock(MailerHelper::class);
-    $this->translator = $this->createMock(TranslatorInterface::class);
-    $this->twig = $this->createMock(Environment::class);
-    $this->router = $this->createMock(RouterInterface::class);
-    //    $this->userRep = $this->createMock(UserRepository::class);
-
-    $this->changeMailHelper = new ChangeMailHelper(
-      $this->userChangeRep,
-      $this->em,
-      $this->mailerHelper,
-      $this->twig,
-      $this->router,
-      $this->translator,
-    );
-  }
-
-  /**
-   * check, if we load the correct class.
-   */
-  public function testClassLoad(): void
-  {
-    $this->assertInstanceOf(ChangeMailHelper::class, $this->changeMailHelper);
-  }
-
-  /**
-   * Check, if Change record expired (Case 1 = not expired).
-   */
-  public function testCheckExpiredRequest1(): void
-  {
-    $user = new User();
-
-    $userChange = new UserChanges();
-    $userChange->setExpiresAt(new \DateTimeImmutable(\sprintf('+%d seconds', 100)));
-
-    $this->userChangeRep
-      ->method('findOneBy')
-      ->willReturn($userChange);
-
-    $result = $this->changeMailHelper->checkExpiredRequest($user);
-    $this->assertFalse($result);
-  }
-
-  /**
-   * Check, if Change record expired (Case 2 = expired).
-   */
-  public function testCheckExpiredRequest2(): void
-  {
-    $user = new User();
-
-    $userChange = new UserChanges();
-    $userChange->setExpiresAt(new \DateTimeImmutable(\sprintf('-%d seconds', 1000)));
-
-    $this->userChangeRep
-      ->method('findOneBy')
-      ->willReturn($userChange);
-
-    $result = $this->changeMailHelper->checkExpiredRequest($user);
-    $this->assertTrue($result);
-  }
-
-  /**
-   * check, if email address exists (Case 1 = email exists).
-   *
-   * @return void
-   */
-  /*   public function testCheckMailExists1()
+    /**
+     * prepare the mockups, load the class.
+     */
+    protected function setUp(): void
     {
-      $email = "test@test.com";
+        $this->em = $this->createMock(EntityManagerInterface::class);
+        $this->userChangeRep = $this->createMock(UserChangesRepository::class);
+        $this->mailerHelper = $this->createMock(MailerHelper::class);
+        $this->translator = $this->createMock(TranslatorInterface::class);
+        $this->twig = $this->createMock(Environment::class);
+        $this->router = $this->createMock(RouterInterface::class);
+        //    $this->userRep = $this->createMock(UserRepository::class);
 
-      $user = new User();
-      $user->setEmail($email);
+        $this->changeMailHelper = new ChangeMailHelper(
+            $this->userChangeRep,
+            $this->em,
+            $this->mailerHelper,
+            $this->twig,
+            $this->router,
+            $this->translator,
+        );
+    }
 
-      $this->userRep
-        ->method('findOneBy')
-        ->willReturn($user);
-
-      $result = $this->changeMailHelper->checkMailExists($email);
-      $this->assertEquals($email, $result->getEmail());
-    } */
-
-  /**
-   * check, if email address exists (Case 2 = email not exists).
-   *
-   * @return void
-   */
-  /*   public function testCheckMailExists2()
+    /**
+     * check, if we load the correct class.
+     */
+    public function testClassLoad(): void
     {
-      $email = "test@test.com";
+        $this->assertInstanceOf(ChangeMailHelper::class, $this->changeMailHelper);
+    }
 
-      $this->userRep
-        ->method('findOneBy')
-        ->willReturn(null);
+    /**
+     * Check, if Change record expired (Case 1 = not expired).
+     */
+    public function testCheckExpiredRequest1(): void
+    {
+        $user = new User();
 
-      $result = $this->changeMailHelper->checkMailExists($email);
-      $this->assertNull($result);
-    } */
+        $userChange = new UserChanges();
+        $userChange->setExpiresAt(new \DateTimeImmutable(\sprintf('+%d seconds', 100)));
 
-  /**
-   * check token creation.
-   *
-   * @return void
-   */
-  public function testTokenHandling()
-  {
-    $token1 = $this->changeMailHelper->getToken();
-    $token2 = $this->changeMailHelper->getToken();
+        $this->userChangeRep
+          ->method('findOneBy')
+          ->willReturn($userChange);
 
-    $this->assertEquals($token1, $token2, 'Token should be stored.');
-  }
+        $result = $this->changeMailHelper->checkExpiredRequest($user);
+        $this->assertFalse($result);
+    }
 
-  /**
-   * check token hash creation.
-   *
-   * @return void
-   */
-  public function testTokenHashHandling()
-  {
-    $token = $this->changeMailHelper->getToken();
-    $tokenHash1 = $this->changeMailHelper->getTokenHash($token);
-    $tokenHash2 = $this->changeMailHelper->getTokenHash($token);
+    /**
+     * Check, if Change record expired (Case 2 = expired).
+     */
+    public function testCheckExpiredRequest2(): void
+    {
+        $user = new User();
 
-    $this->assertEquals($tokenHash1, $tokenHash2, 'Token should be equal.');
-  }
+        $userChange = new UserChanges();
+        $userChange->setExpiresAt(new \DateTimeImmutable(\sprintf('-%d seconds', 1000)));
+
+        $this->userChangeRep
+          ->method('findOneBy')
+          ->willReturn($userChange);
+
+        $result = $this->changeMailHelper->checkExpiredRequest($user);
+        $this->assertTrue($result);
+    }
+
+    /**
+     * check, if email address exists (Case 1 = email exists).
+     *
+     * @return void
+     */
+    /*   public function testCheckMailExists1()
+      {
+        $email = "test@test.com";
+
+        $user = new User();
+        $user->setEmail($email);
+
+        $this->userRep
+          ->method('findOneBy')
+          ->willReturn($user);
+
+        $result = $this->changeMailHelper->checkMailExists($email);
+        $this->assertEquals($email, $result->getEmail());
+      } */
+
+    /**
+     * check, if email address exists (Case 2 = email not exists).
+     *
+     * @return void
+     */
+    /*   public function testCheckMailExists2()
+      {
+        $email = "test@test.com";
+
+        $this->userRep
+          ->method('findOneBy')
+          ->willReturn(null);
+
+        $result = $this->changeMailHelper->checkMailExists($email);
+        $this->assertNull($result);
+      } */
+
+    /**
+     * check token creation.
+     *
+     * @return void
+     */
+    public function testTokenHandling()
+    {
+        $token1 = $this->changeMailHelper->getToken();
+        $token2 = $this->changeMailHelper->getToken();
+
+        $this->assertEquals($token1, $token2, 'Token should be stored.');
+    }
+
+    /**
+     * check token hash creation.
+     *
+     * @return void
+     */
+    public function testTokenHashHandling()
+    {
+        $token = $this->changeMailHelper->getToken();
+        $tokenHash1 = $this->changeMailHelper->getTokenHash($token);
+        $tokenHash2 = $this->changeMailHelper->getTokenHash($token);
+
+        $this->assertEquals($tokenHash1, $tokenHash2, 'Token should be equal.');
+    }
 }

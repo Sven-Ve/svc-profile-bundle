@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the svc/profile-bundle.
+ *
+ * (c) 2025 Sven Vetter <dev@sv-systems.com>.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Svc\ProfileBundle\Form;
 
 use Karser\Recaptcha3Bundle\Form\Recaptcha3Type;
@@ -14,38 +23,38 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ChangeMailType extends AbstractType
 {
-  public function buildForm(FormBuilderInterface $builder, array $options)
-  {
-    $builder
-      ->add('email', EmailType::class, ['label' => 'New mail', 'attr' => ['autofocus' => true]])
-      ->add('password', PasswordType::class, [
-        'help' => 'Please enter your password to check your identity',
-        'constraints' => [
-          new NotBlank([
-            'message' => 'Please enter a password',
-          ]),
-        ],
-        'toggle' => true,
-      ]);
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+          ->add('email', EmailType::class, ['label' => 'New mail', 'attr' => ['autofocus' => true]])
+          ->add('password', PasswordType::class, [
+              'help' => 'Please enter your password to check your identity',
+              'constraints' => [
+                  new NotBlank([
+                      'message' => 'Please enter a password',
+                  ]),
+              ],
+              'toggle' => true,
+          ]);
 
-    if ($options['enableCaptcha']) {
-      /* @phpstan-ignore-next-line */
-      $builder->add('captcha', Recaptcha3Type::class, [
-        /* @phpstan-ignore-next-line */
-        'constraints' => new Recaptcha3(),
-        'action_name' => 'homepage',
-      ]);
+        if ($options['enableCaptcha']) {
+            /* @phpstan-ignore-next-line */
+            $builder->add('captcha', Recaptcha3Type::class, [
+                /* @phpstan-ignore-next-line */
+                'constraints' => new Recaptcha3(),
+                'action_name' => 'homepage',
+            ]);
+        }
+
+        $builder
+          ->add('Change', SubmitType::class, ['attr' => ['class' => 'btn btn-lg btn-primary btn-block']]);
     }
 
-    $builder
-      ->add('Change', SubmitType::class, ['attr' => ['class' => 'btn btn-lg btn-primary btn-block']]);
-  }
-
-  public function configureOptions(OptionsResolver $resolver)
-  {
-    $resolver->setDefaults([
-      'enableCaptcha' => null,
-      'translation_domain' => 'ProfileBundle',
-    ]);
-  }
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'enableCaptcha' => null,
+            'translation_domain' => 'ProfileBundle',
+        ]);
+    }
 }

@@ -6,7 +6,7 @@ Usage
 ```yaml
 # /config/routes/svc_profile.yaml
 _svc_profile:
-    resource: '@SvcProfileBundle/config/routes.yaml'
+    resource: '@SvcProfileBundle/config/routes.php'
     prefix: /svc-profile/{_locale}
     requirements: {"_locale": "%app.supported_locales%"}
 ```
