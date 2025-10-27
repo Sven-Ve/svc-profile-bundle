@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the svc/profile-bundle.
  *
@@ -55,10 +57,10 @@ class SvcProfileKernel extends Kernel
                 'url' => 'sqlite:///' . $this->getCacheDir() . '/app.db',
             ],
             'orm' => [
-                'auto_generate_proxy_classes' => true,
+                //               'auto_generate_proxy_classes' => true,
                 'auto_mapping' => true,
-                'enable_lazy_ghost_objects' => true,
-                'report_fields_where_declared' => true,
+                //               'enable_lazy_ghost_objects' => true,
+                //               'report_fields_where_declared' => true,
             ],
         ]);
     }
