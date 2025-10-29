@@ -163,3 +163,8 @@
 *Mon, 27 Oct 2025 18:17:08 +0000*
 - Add strict types declaration across multiple files
 - update composer.json to support newer doctrine versions.
+
+
+## Version 6.5.0
+*Wed, 29 Oct 2025 15:17:09 +0000*
+- Remove Symfony UX TogglePassword dependency, use TogglePassword implementation from Svc\UtilBundle. Add tests

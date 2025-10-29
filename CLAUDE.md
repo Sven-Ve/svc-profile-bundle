@@ -76,11 +76,35 @@ The bundle follows modern Symfony architecture with:
 - Optional karser/karser-recaptcha3-bundle integration
 
 ### Testing
-- Uses custom `SvcProfileKernel` test kernel
-- UserDummy class for test data
-- Functional tests for controllers and services
+- Uses custom `SvcProfileKernel` test kernel with `/profile/` route prefix
+- UserDummy class for test data in `tests/Dummy/`
 - PHPUnit configuration in `phpunit.xml.dist`
-- Security-focused tests for XSS prevention and validation
+- **29 tests with 47 assertions** covering all critical functionality
+
+#### Test Coverage by Component:
+
+**Controllers (9 tests):**
+- `ChangeMailControllerTest` - Email change functionality, XSS protection, token validation
+- `ChangePWControllerTest` - Password change route accessibility
+
+**Services (5 tests):**
+- `ChangeMailHelperTest` - Token generation/hashing, expiration checks, email validation
+
+**Validators (15 tests):**
+- `ValidEmailDomainValidatorTest` - Disposable email detection, MX validation, edge cases
+
+#### Security Testing:
+- XSS attack prevention (validated in mail1Sent endpoint)
+- SQL injection attempts in token validation
+- Token format validation (32 hex characters required)
+- Email validation with disposable domain blocking
+- Case-insensitive domain checking
+
+#### Testing Best Practices:
+- All tests use PHPStan ignore comments for mock expectations
+- Controller tests verify route accessibility (not 404) without full integration
+- Validator tests use mocked contexts for isolated unit testing
+- Security tests verify input sanitization and validation
 
 ### Configuration Flow
 1. Bundle auto-configures services via `config/services.php`

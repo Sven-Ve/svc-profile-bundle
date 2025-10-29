@@ -12,8 +12,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-$version = '6.4.0';
-$message = 'Add strict types declaration across multiple files; update composer.json to support newer doctrine versions.';
+$version = '6.5.0';
+$message = 'Remove Symfony UX TogglePassword dependency, use TogglePassword implementation from Svc\UtilBundle. Add tests';
 
 echo "Running phpstan:\n";
 system('composer run-script phpstan', $res);
