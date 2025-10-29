@@ -11,7 +11,7 @@
   ],
   "require": {
     "php": "^8.2",
-    "svc/util-bundle": "^5|^6|dev-main",
+    "svc/util-bundle": "^6.1|dev-main",
     "symfony/framework-bundle": "^6.4|^7",
     "doctrine/doctrine-bundle": "^2.10 | ^3",
     "doctrine/orm": "^2.15 | ^3",
@@ -19,8 +19,7 @@
     "symfony/translation": "^6.4|^7",
     "symfony/twig-bundle": "^6.4|^7",
     "symfony/security-bundle": "^6.4|^7",
-    "symfony/form": "^6.4|^7",
-    "symfony/ux-toggle-password": "^2.13"
+    "symfony/form": "^6.4|^7"
   },
   "autoload": {
     "psr-4": {
@@ -39,7 +38,7 @@
     "phpstan/phpstan-doctrine": "^2.0"
 },
 "suggest": {
-  "karser/karser-recaptcha3-bundle": "Could by used in the contact form"
+  "karser/karser-recaptcha3-bundle": "Could be used in the contact form"
 },
   "scripts": {
       "test": "vendor/bin/phpunit --testdox",

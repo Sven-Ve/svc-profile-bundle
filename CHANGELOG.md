@@ -154,9 +154,12 @@
 
 ## Version 6.3.0
 *Sun, 14 Sep 2025 13:04:09 +0000*
-- BREAKING CHANGE: PHP route configuration, manual import required. SECURITY FIXES: XSS vulnerability, hardcoded secret removed, enhanced email validation. See migration guide.
+- BREAKING CHANGE: PHP route configuration, manual import required. 
+- SECURITY FIXES: XSS vulnerability, hardcoded secret removed, enhanced email validation. 
+  - See migration guide.
 
 
 ## Version 6.4.0
 *Mon, 27 Oct 2025 18:17:08 +0000*
-- Add strict types declaration across multiple files; update composer.json to support newer doctrine versions.
+- Add strict types declaration across multiple files
+- update composer.json to support newer doctrine versions.
