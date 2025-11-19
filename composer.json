@@ -11,7 +11,7 @@
   ],
   "require": {
     "php": "^8.2",
-    "svc/util-bundle": "^6.1|dev-main",
+    "svc/util-bundle": "^6.1 | ^7 | dev-main",
     "symfony/framework-bundle": "^6.4|^7",
     "doctrine/doctrine-bundle": "^2.10 | ^3",
     "doctrine/orm": "^2.15 | ^3",

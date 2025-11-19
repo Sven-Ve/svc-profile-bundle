@@ -25,7 +25,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ChangePWType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
           ->add('password', PasswordType::class, [

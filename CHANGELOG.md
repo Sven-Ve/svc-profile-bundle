@@ -168,3 +168,8 @@
 ## Version 6.5.0
 *Wed, 29 Oct 2025 15:17:09 +0000*
 - Remove Symfony UX TogglePassword dependency, use TogglePassword implementation from Svc\UtilBundle. Add tests
+
+
+## Version 6.6.0
+*Wed, 19 Nov 2025 15:33:42 +0000*
+- Tested with svc-utilbundle 7.x too.
