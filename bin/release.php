@@ -12,8 +12,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-$version = '6.6.0';
-$message = 'Tested with svc-utilbundle 7.x too.';
+$version = '6.7.0';
+$message = 'Tested with svc-utilbundle 8.x too.';
 
 echo "Running phpstan:\n";
 system('composer run-script phpstan', $res);

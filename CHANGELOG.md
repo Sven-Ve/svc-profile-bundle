@@ -173,3 +173,8 @@
 ## Version 6.6.0
 *Wed, 19 Nov 2025 15:33:42 +0000*
 - Tested with svc-utilbundle 7.x too.
+
+
+## Version 6.7.0
+*Sun, 23 Nov 2025 14:02:47 +0000*
+- Tested with svc-utilbundle 8.x too.
