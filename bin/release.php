@@ -12,8 +12,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-$version = '6.7.0';
-$message = 'Tested with svc-utilbundle 8.x too.';
+$version = '6.8.0';
+$message = 'Refactor error flash messages to use "error" type and update composer dependencies for Symfony 7.4 / 8 compatibility';
 
 echo "Running phpstan:\n";
 system('composer run-script phpstan', $res);

@@ -178,3 +178,8 @@
 ## Version 6.7.0
 *Sun, 23 Nov 2025 14:02:47 +0000*
 - Tested with svc-utilbundle 8.x too.
+
+
+## Version 6.8.0
+*Sat, 29 Nov 2025 16:08:25 +0000*
+- Refactor error flash messages to use "error" type and update composer dependencies for Symfony 7.4 / 8 compatibility
