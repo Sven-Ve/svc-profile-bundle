@@ -42,10 +42,10 @@ class ChangeMailType extends AbstractType
                       'message' => 'Please enter a valid email address',
                       'mode' => Email::VALIDATION_MODE_STRICT,
                   ]),
-                  new Length([
-                      'max' => 254, // RFC 5321 maximum email address length
-                      'maxMessage' => 'Email address cannot be longer than {{ limit }} characters',
-                  ]),
+                  new Length(
+                      max: 254, // RFC 5321 maximum email address length
+                      maxMessage: 'Email address cannot be longer than {{ limit }} characters'
+                  ),
                   new ValidEmailDomain(),
               ],
           ])
@@ -72,7 +72,7 @@ class ChangeMailType extends AbstractType
           ->add('Change', SubmitType::class, ['attr' => ['class' => 'btn btn-lg btn-primary btn-block']]);
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'enableCaptcha' => null,

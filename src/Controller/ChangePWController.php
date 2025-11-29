@@ -69,7 +69,7 @@ class ChangePWController extends AbstractController
 
                 return $this->redirectToRoute('app_logout');
             }
-            $this->addFlash('danger', $this->t('Wrong password, please try again!'));
+            $this->addFlash('error', $this->t('Wrong password, please try again!'));
 
             return $this->redirectToRoute('svc_profile_change_pw_start');
 

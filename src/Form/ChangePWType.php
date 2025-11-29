@@ -40,11 +40,11 @@ class ChangePWType extends AbstractType
               'toggle' => true,
               'constraints' => [
                   new NotBlank(['message' => 'Please enter a password']),
-                  new Length([
-                      'min' => 8,
-                      'minMessage' => 'Your password should be at least {{ limit }} characters',
-                      'max' => 4096,
-                  ]),
+                  new Length(
+                      min: 8,
+                      minMessage: 'Your password should be at least {{ limit }} characters',
+                      max: 4096
+                  ),
               ],
           ]);
 
@@ -61,7 +61,7 @@ class ChangePWType extends AbstractType
           ->add('Change', SubmitType::class, ['attr' => ['class' => 'btn btn-lg btn-primary btn-block']]);
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'enableCaptcha' => null,
